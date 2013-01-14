@@ -53,7 +53,15 @@ typedef enum _CSC_METHOD {
 typedef enum _CSC_HW_PROPERTY_TYPE {
     CSC_HW_PROPERTY_FIXED_NODE = 0,
     CSC_HW_PROPERTY_MODE_DRM,
+    CSC_HW_PROPERTY_HW_TYPE,
 } CSC_HW_PROPERTY_TYPE;
+
+typedef enum _CSC_HW_TYPE {
+    CSC_HW_TYPE_NONE = 0,
+    CSC_HW_TYPE_FIMC,
+    CSC_HW_TYPE_GSCALER,
+    CSC_HW_TYPE_G2D,
+} CSC_HW_TYPE;
 
 typedef enum _CSC_MEMTYPE {
     CSC_MEMORY_MMAP = 1,
@@ -81,11 +89,6 @@ typedef enum _CSC_PLANE {
     CSC_UV_PLANE = 1,
     CSC_V_PLANE = 2
 } CSC_PLANE;
-
-typedef enum _CSC_HW_TYPE {
-    CSC_HW_TYPE_FIMC = 0,
-    CSC_HW_TYPE_GSCALER
-} CSC_HW_TYPE;
 
 typedef enum _CSC_EQ_MODE {
     CSC_EQ_MODE_USER = 0,
