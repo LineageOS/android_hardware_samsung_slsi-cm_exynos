@@ -1121,6 +1121,7 @@ int ExynosJpegEncoderForCamera::encodeThumbnail(unsigned int *size, bool useMain
         if (m_exynosThumbCSC == NULL)
             ALOGE("ERR(%s):csc_init() fail", __FUNCTION__);
         csc_set_hw_property(m_exynosThumbCSC, CSC_HW_PROPERTY_FIXED_NODE, CSC_HW_NUM_FOR_JPEG);
+        csc_set_hw_property(m_exynosPictureCSC, CSC_HW_PROPERTY_HW_TYPE, CSC_HW_TYPE_GSCALER);
         /********************/
 
         switch (iTempColorformat) {

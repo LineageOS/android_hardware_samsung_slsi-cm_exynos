@@ -57,6 +57,7 @@ status_t ExynosCameraPipeGSC::create(int32_t *sensorIds)
     }
 
     csc_set_hw_property(m_csc, m_property, m_mainNodeNum);
+    csc_set_hw_property(m_csc, CSC_HW_PROPERTY_HW_TYPE, CSC_HW_TYPE_GSCALER);
 
     m_mainThread = ExynosCameraThreadFactory::createThread(this, &ExynosCameraPipeGSC::m_mainThreadFunc, "GSCThread");
 
