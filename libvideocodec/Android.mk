@@ -2,6 +2,10 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
+LOCAL_CLANG_CFLAGS += \
+	-Wno-int-conversion \
+	-Wno-incompatible-pointer-types
+
 ifeq ($(BOARD_USE_VP8ENC_SUPPORT), true)
 LOCAL_CFLAGS += -DUSE_VP8ENC_SUPPORT
 endif
