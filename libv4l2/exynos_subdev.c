@@ -101,7 +101,7 @@ int exynos_subdev_get_node_num(const char *devname, int oflag, ...)
             }
 
             /* read sysfs entry for device name */
-            size = (int)fgets(name, sizeof(name), stream_fd);
+            size = (intptr_t)fgets(name, sizeof(name), stream_fd);
             fclose(stream_fd);
 
             /* check read size */
@@ -161,7 +161,7 @@ int exynos_subdev_open_devname(const char *devname, int oflag, ...)
             }
 
             /* read sysfs entry for device name */
-            size = (int)fgets(name, sizeof(name), stream_fd);
+            size = (intptr_t)fgets(name, sizeof(name), stream_fd);
             fclose(stream_fd);
 
             /* check read size */
