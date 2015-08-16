@@ -57,6 +57,9 @@ enum {
 /* for backward compatibility */
 #define HAL_PIXEL_FORMAT_CUSTOM_YCbCr_420_SP    HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M
 #define HAL_PIXEL_FORMAT_CUSTOM_YCrCb_420_SP    HAL_PIXEL_FORMAT_EXYNOS_YCrCb_420_SP_M
+/* frameworks/av */
+#define HAL_PIXEL_FORMAT_YCbCr_420_SP           HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M
+#define HAL_PIXEL_FORMAT_YCbCr_420_SP_TILED     HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M_TILED
 
 // Gamut (colorspace range)
 enum {
