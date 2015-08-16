@@ -677,7 +677,7 @@ int ExynosMPP::processM2M(hwc_layer_1_t &layer, int dst_format, hwc_frect_t *sou
         mLastGSCLayerHandle = 0;
     }
 
-    if (!reconfigure && (mLastGSCLayerHandle == (uint32_t)layer.handle)) {
+    if (!reconfigure && (mLastGSCLayerHandle == (uintptr_t)layer.handle)) {
         ALOGV("[USE] GSC_SKIP_DUPLICATE_FRAME_PROCESSING\n");
         if (layer.acquireFenceFd >= 0)
             close(layer.acquireFenceFd);
@@ -693,7 +693,7 @@ int ExynosMPP::processM2M(hwc_layer_1_t &layer, int dst_format, hwc_frect_t *sou
         }
         return 0;
     } else {
-        mLastGSCLayerHandle = (uint32_t)layer.handle;
+        mLastGSCLayerHandle = (uintptr_t)layer.handle;
     }
 #ifdef USES_VIRTUAL_DISPLAY
     }
