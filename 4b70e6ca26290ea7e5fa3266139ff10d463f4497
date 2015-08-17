@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f201791_78753d98",
+        "filename": "libhwc/ExynosHWC.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-17T23:10:07Z",
+      "side": 1,
+      "message": "You could also do buf[ret] \u003d \u0027\\0\u0027; since you know how many bytes you read.",
+      "revId": "4b70e6ca26290ea7e5fa3266139ff10d463f4497",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f201791_d83c51c1",
+        "filename": "libhwc/ExynosHWC.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-17T23:10:07Z",
+      "side": 1,
+      "message": "Should set 0 here, or remove the if refreshRate \u003d\u003d 0 fallback below.",
+      "revId": "4b70e6ca26290ea7e5fa3266139ff10d463f4497",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f201791_985ff90d",
+        "filename": "libhwc/ExynosHWC.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-17T23:10:07Z",
+      "side": 1,
+      "message": "Is info here failing you for some reason?",
+      "revId": "4b70e6ca26290ea7e5fa3266139ff10d463f4497",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
