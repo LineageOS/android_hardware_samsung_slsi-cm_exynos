@@ -16,6 +16,24 @@
       "revId": "731561745c7e519dd9375944b0868c462c68d659",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f201791_154a947f",
+        "filename": "libhwc/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6334
+      },
+      "writtenOn": "2015-08-17T22:41:15Z",
+      "side": 1,
+      "message": "It will move it to the lib/hw or 32-bit and lib64/hw for 64-bit\n\nhttps://source.android.com/source/64-bit-builds.html#install_path",
+      "parentUuid": "5f201791_958ea4ce",
+      "revId": "731561745c7e519dd9375944b0868c462c68d659",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
