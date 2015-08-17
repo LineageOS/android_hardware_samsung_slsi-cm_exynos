@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f201791_958ea4ce",
+        "filename": "libhwc/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-17T22:35:52Z",
+      "side": 1,
+      "message": "This will move the library to /system/lib/hw, no? (Not that it should have any real effect)",
+      "revId": "731561745c7e519dd9375944b0868c462c68d659",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
