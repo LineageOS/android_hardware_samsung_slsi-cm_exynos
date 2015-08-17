@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f201791_95e0e498",
+        "filename": "libv4l2/exynos_subdev.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-17T22:29:28Z",
+      "side": 1,
+      "message": "This probably shouldn\u0027t be an intptr, that\u0027s generally meant for holding memory addresses.",
+      "revId": "d503a55d3bddc1c6e8030c6e871d63eab5385d33",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f201791_75ef8887",
+        "filename": "libv4l2/exynos_subdev.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-17T22:29:28Z",
+      "side": 1,
+      "message": "Neither should this.",
+      "revId": "d503a55d3bddc1c6e8030c6e871d63eab5385d33",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f201791_35e91080",
+        "filename": "libv4l2/exynos_v4l2.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-17T22:29:28Z",
+      "side": 1,
+      "message": "Nor this.",
+      "revId": "d503a55d3bddc1c6e8030c6e871d63eab5385d33",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
