@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f201791_6f0a0d8b",
+        "filename": "libhdmi/dv_timings.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-19T22:42:50Z",
+      "side": 1,
+      "message": "Wasn\u0027t there a hardcoded list of DV timings added to one of these files somewhere? Is that still necessary?",
+      "revId": "a1d9a7a19a1658a370c8a04d08e1fc5664ecaff5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
