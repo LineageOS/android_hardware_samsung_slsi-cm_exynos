@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5f201791_c447c8bc",
+        "filename": "libv4l2/exynos_subdev.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-08-19T07:34:35Z",
+      "side": 1,
+      "message": "I know why you did it, but it\u0027s not really the right data type for this usage due to convention, rather than any technical reason.",
+      "parentUuid": "5f201791_fb0ca743",
+      "revId": "d503a55d3bddc1c6e8030c6e871d63eab5385d33",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f201791_75ef8887",
         "filename": "libv4l2/exynos_subdev.c",
         "patchSetId": 1
