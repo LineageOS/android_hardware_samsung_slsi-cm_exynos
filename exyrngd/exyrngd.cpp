@@ -27,7 +27,9 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#include <errno.h>
+#include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,8 +45,6 @@
 #ifndef min
 	#define min(a,b) (((a)>(b))?(b):(a))
 #endif
-
-typedef unsigned char bool;
 
 #define TRUE 1
 #define FALSE 0
@@ -291,7 +291,7 @@ int main(int argc, char **argv)
 	}
 
 	/* allocate memory for ioctl data struct and buffer */
-	rand = malloc(sizeof(struct rand_pool_info) + MAX_ENT_POOL_WRITES);
+	rand = (rand_pool_info*) malloc(sizeof(struct rand_pool_info) + MAX_ENT_POOL_WRITES);
 	if (!rand) {
 		fprintf(stderr, "Can't allocate memory\n");
 		exitval = 1;
