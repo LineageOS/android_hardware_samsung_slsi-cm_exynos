@@ -24,13 +24,6 @@ class ExynosHWCService;
 }
 #endif
 
-#ifdef USES_WFD_SERVICE
-#include "WFDService.h"
-namespace android {
-    class WFDService;
-}
-#endif
-
 #ifdef IP_SERVICE
 #include "ExynosIPService.h"
 #endif
@@ -970,10 +963,6 @@ int exynos5_open(const struct hw_module_t *module, const char *name,
 #if !defined(HDMI_INCAPABLE)
     mHWCService->setBootFinishedCallback(exynos5_boot_finished);
 #endif
-#endif
-
-#ifdef USES_WFD_SERVICE
-    android::WFDService::instantiate();
 #endif
 
     dev->mHdmiResolutionChanged = false;
