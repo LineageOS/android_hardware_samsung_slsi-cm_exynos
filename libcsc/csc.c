@@ -1069,8 +1069,3 @@ CSC_ERRORCODE csc_convert_with_rotation(
 
     return ret;
 }
-
-CSC_ERRORCODE csc_set_eq_property(void *handle)
-{
-    return CSC_ErrorNone;
-}
