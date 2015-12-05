@@ -134,6 +134,7 @@ static CSC_ERRORCODE conv_sw_src_argb888(
             handle->src_format.height);
         ret = CSC_ErrorNone;
         break;
+#ifndef DISABLE_NEON
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP:
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
         csc_ARGB8888_to_YUV420SP_NEON(
@@ -144,6 +145,7 @@ static CSC_ERRORCODE conv_sw_src_argb888(
             handle->src_format.height);
         ret = CSC_ErrorNone;
         break;
+#endif
     case HAL_PIXEL_FORMAT_YV12:
     case HAL_PIXEL_FORMAT_EXYNOS_YV12_M:
         csc_ARGB8888_to_YUV420P(
@@ -170,6 +172,7 @@ static CSC_ERRORCODE conv_sw_src_nv12t(
     CSC_ERRORCODE ret = CSC_ErrorNone;
 
     switch (handle->dst_format.color_format) {
+#ifndef DISABLE_NEON
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_P:
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_P_M:
         csc_tiled_to_linear_y_neon(
@@ -199,6 +202,7 @@ static CSC_ERRORCODE conv_sw_src_nv12t(
             handle->src_format.height / 2);
         ret = CSC_ErrorNone;
         break;
+#endif
     default:
         ret = CSC_ErrorUnsupportFormat;
         break;
@@ -231,6 +235,7 @@ static CSC_ERRORCODE conv_sw_src_yuv420p(
             ret = CSC_ErrorNone;
         }
         break;
+#ifndef DISABLE_NEON
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP:
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
         memcpy((unsigned char *)handle->dst_buffer.planes[CSC_Y_PLANE],
@@ -243,6 +248,7 @@ static CSC_ERRORCODE conv_sw_src_yuv420p(
             (handle->src_format.width * handle->src_format.height) >> 2);
         ret = CSC_ErrorNone;
         break;
+#endif
     default:
         ret = CSC_ErrorUnsupportFormat;
         break;
@@ -275,6 +281,7 @@ static CSC_ERRORCODE conv_sw_src_yvu420p(
             ret = CSC_ErrorNone;
         }
         break;
+#ifndef DISABLE_NEON
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP:
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
         memcpy((unsigned char *)handle->dst_buffer.planes[CSC_Y_PLANE],
@@ -287,6 +294,7 @@ static CSC_ERRORCODE conv_sw_src_yvu420p(
             (handle->src_format.width * handle->src_format.height) >> 2);
         ret = CSC_ErrorNone;
         break;
+#endif
     default:
         ret = CSC_ErrorUnsupportFormat;
         break;

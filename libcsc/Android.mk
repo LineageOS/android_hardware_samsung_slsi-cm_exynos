@@ -45,6 +45,13 @@ endif
 endif
 
 LOCAL_CFLAGS += -DUSE_ION
+
+ifeq ($(TARGET_ARCH), arm64)
+ifeq ($(TARGET_2ND_ARCH),arm)
+LOCAL_CFLAGS += -DDISABLE_NEON
+endif
+endif
+
 LOCAL_SHARED_LIBRARIES += libion_exynos
 
 include $(BUILD_SHARED_LIBRARY)
