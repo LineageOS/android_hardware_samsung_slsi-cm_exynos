@@ -560,6 +560,43 @@ void *hwc_vsync_thread(void *data)
     return NULL;
 }
 
+static bool is_transformed(const hwc_layer_1_t &layer)
+{
+    return layer.transform != 0;
+}
+
+static bool is_rotated(const hwc_layer_1_t &layer)
+{
+    return (layer.transform & HAL_TRANSFORM_ROT_90) ||
+    (layer.transform & HAL_TRANSFORM_ROT_180);
+}
+
+static bool is_scaled(const hwc_layer_1_t &layer)
+{
+    return WIDTH(layer.displayFrame) != WIDTH(layer.sourceCrop) ||
+    HEIGHT(layer.displayFrame) != HEIGHT(layer.sourceCrop);
+}
+
+static bool exynos5_format_is_rgb(int format)
+{
+    switch (format) {
+    case HAL_PIXEL_FORMAT_RGBA_8888:
+    case HAL_PIXEL_FORMAT_RGBX_8888:
+    case HAL_PIXEL_FORMAT_RGB_888:
+    case HAL_PIXEL_FORMAT_RGB_565:
+    case HAL_PIXEL_FORMAT_BGRA_8888:
+    case HAL_PIXEL_FORMAT_RGBA_5551:
+    case HAL_PIXEL_FORMAT_RGBA_4444:
+#ifdef EXYNOS_SUPPORT_BGRX_8888
+    case HAL_PIXEL_FORMAT_BGRX_8888:
+#endif
+        return true;
+
+    default:
+        return false;
+    }
+}
+
 int exynos5_blank(struct hwc_composer_device_1 *dev, int disp, int blank)
 {
     struct exynos5_hwc_composer_device_1_t *pdev =
