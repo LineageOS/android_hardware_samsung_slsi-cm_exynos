@@ -22,8 +22,6 @@ LOCAL_CFLAGS :=
 
 LOCAL_MODULE := libcsc
 
-LOCAL_MULTILIB := 32
-
 LOCAL_ARM_MODE := arm
 
 LOCAL_STATIC_LIBRARIES := libswconverter
@@ -45,6 +43,7 @@ endif
 endif
 
 LOCAL_CFLAGS += -DUSE_ION
+
 LOCAL_SHARED_LIBRARIES += libion_exynos
 
 include $(BUILD_SHARED_LIBRARY)
