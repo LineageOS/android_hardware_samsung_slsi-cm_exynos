@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcbff3d_ef127eb1",
+        "filename": "libhdmi/ExynosExternalDisplay.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-02T00:18:14Z",
+      "side": 1,
+      "message": "Line length",
+      "revId": "5469bd8aec250cb59a09870c8ae17f4efe1e88ce",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
