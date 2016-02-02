@@ -16,6 +16,24 @@
       "revId": "5469bd8aec250cb59a09870c8ae17f4efe1e88ce",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcbff3d_4f4f12bd",
+        "filename": "libhdmi/ExynosExternalDisplay.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-02-02T00:23:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure honestly..\nI thought about that too but the source file has several other lines that are this long or even longer..\nIf we\u0027re starting here, we might as well clean up the whole hardware/samsung_slsi-cm/* source, but I think that belongs in a separate commit.\n\nBut yeah, the current formatting is pretty horrible.",
+      "parentUuid": "1fcbff3d_ef127eb1",
+      "revId": "5469bd8aec250cb59a09870c8ae17f4efe1e88ce",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
