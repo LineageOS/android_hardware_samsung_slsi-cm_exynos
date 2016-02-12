@@ -35,7 +35,7 @@ ifeq ($(BOARD_USES_FIMC),true)
 LOCAL_CFLAGS += -DENABLE_FIMC
 LOCAL_SHARED_LIBRARIES += libexynosfimc
 endif
-ifeq ($(TARGET_BOARD_PLATFORM),exynos5)
+ifneq ($(filter exynos5 exynos7,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_CFLAGS += -DENABLE_GSCALER
 LOCAL_SHARED_LIBRARIES += libexynosgscaler
 ifeq ($(BOARD_USES_SCALER), true)

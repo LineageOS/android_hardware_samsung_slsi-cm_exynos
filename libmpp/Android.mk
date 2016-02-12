@@ -32,7 +32,7 @@ LOCAL_SRC_FILES := MppFactory.cpp
 LOCAL_MODULE_TAGS := eng
 LOCAL_MODULE := libmpp
 
-ifeq ($(TARGET_BOARD_PLATFORM),exynos5)
+ifneq ($(filter exynos5 exynos7,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_SHARED_LIBRARIES += libexynosgscaler
 LOCAL_CFLAGS += -DENABLE_GSCALER
 else
