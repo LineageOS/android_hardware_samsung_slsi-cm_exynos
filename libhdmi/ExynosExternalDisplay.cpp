@@ -5,6 +5,8 @@
 #include "decon_tv.h"
 #include <errno.h>
 
+#include <framebuffer.h>
+
 extern struct v4l2_dv_timings dv_timings[];
 bool is_same_dv_timings(const struct v4l2_dv_timings *t1,
         const struct v4l2_dv_timings *t2)
