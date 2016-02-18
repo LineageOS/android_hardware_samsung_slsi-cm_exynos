@@ -227,10 +227,19 @@ CHANGE_COMPOS_MODE:
 }
 
 void ExynosOverlayDisplay::configureOtfWindow(hwc_rect_t &displayFrame,
-        int32_t blending, int32_t planeAlpha, int format, s3c_fb_win_config &cfg)
+        int32_t blending, int32_t planeAlpha, int format, 
+#ifdef DECON_FB
+        decon_win_config &cfg)
+#else
+        s3c_fb_win_config &cfg)
+#endif
 {
     uint8_t bpp = formatToBpp(format);
 
+/* FIXME - No OTF window support on Exynos7 */
+#ifdef DECON_FB
+    return;
+#else
     cfg.state = cfg.S3C_FB_WIN_STATE_OTF;
     cfg.fd = -1;
     cfg.x = displayFrame.left;
@@ -246,11 +255,17 @@ void ExynosOverlayDisplay::configureOtfWindow(hwc_rect_t &displayFrame,
     if (planeAlpha && (planeAlpha < 255)) {
         cfg.plane_alpha = planeAlpha;
     }
+#endif
 }
 
 void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
         hwc_frect_t &sourceCrop, hwc_rect_t &displayFrame,
-        int32_t blending, int32_t planeAlpha, int fence_fd, s3c_fb_win_config &cfg)
+        int32_t blending, int32_t planeAlpha, int fence_fd, 
+#ifdef DECON_FB
+        decon_win_config &cfg)
+#else
+        s3c_fb_win_config &cfg)
+#endif
 {
     uint32_t x, y;
     uint32_t w = WIDTH(displayFrame);
@@ -294,6 +309,27 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
         h -= crop;
     }
 
+#ifdef DECON_FB
+    cfg.state = cfg.DECON_WIN_STATE_BUFFER;
+    cfg.fd_idma[0] = handle->fd;
+    cfg.fd_idma[1] = -1; //FIXME
+    cfg.fd_idma[2] = -1; //FIXME
+    cfg.idma_type = IDMA_G0; //FIXME
+    cfg.src.x = x;
+    cfg.src.y = y;
+    cfg.src.w = w;
+    cfg.src.h = h;
+    cfg.src.f_w = w;
+    cfg.src.f_h = h;
+    cfg.dst.x = x;
+    cfg.dst.y = y;
+    cfg.dst.w = w;
+    cfg.dst.h = h;
+    cfg.dst.f_w = w;
+    cfg.dst.f_h = h;
+    cfg.format = halFormatToDeconFormat(handle->format);
+    cfg.blending = halBlendingToDeconBlending(blending);
+#else
     cfg.state = cfg.S3C_FB_WIN_STATE_BUFFER;
     cfg.fd = handle->fd;
     cfg.x = x;
@@ -304,6 +340,7 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.offset = offset;
     cfg.stride = handle->stride * bpp / 8;
     cfg.blending = halBlendingToS3CBlending(blending);
+#endif
     cfg.fence_fd = fence_fd;
     cfg.plane_alpha = 255;
     if (planeAlpha && (planeAlpha < 255)) {
@@ -311,16 +348,37 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     }
 }
 
-void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_config &cfg)
+void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, 
+#ifdef DECON_FB
+        decon_win_config &cfg)
+#else
+        s3c_fb_win_config &cfg)
+#endif
 {
     if (layer->compositionType == HWC_BACKGROUND) {
         hwc_color_t color = layer->backgroundColor;
+#ifdef DECON_FB
+        cfg.state = cfg.DECON_WIN_STATE_COLOR;
+        cfg.src.x = 0;
+        cfg.src.y = 0;
+        cfg.src.w = this->mXres;
+        cfg.src.h = this->mYres;
+        cfg.src.f_w = this->mXres;
+        cfg.src.f_h = this->mYres;
+        cfg.dst.x = 0;
+        cfg.dst.y = 0;
+        cfg.dst.w = this->mXres;
+        cfg.dst.h = this->mYres;
+        cfg.dst.f_w = this->mXres;
+        cfg.dst.f_h = this->mYres;
+#else
         cfg.state = cfg.S3C_FB_WIN_STATE_COLOR;
-        cfg.color = (color.r << 16) | (color.g << 8) | color.b;
         cfg.x = 0;
         cfg.y = 0;
         cfg.w = this->mXres;
         cfg.h = this->mYres;
+#endif
+        cfg.color = (color.r << 16) | (color.g << 8) | color.b;
         return;
     }
     if ((layer->acquireFenceFd >= 0) && this->mForceFbYuvLayer) {
@@ -338,8 +396,13 @@ void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_con
 int ExynosOverlayDisplay::postFrame(hwc_display_contents_1_t* contents)
 {
     exynos5_hwc_post_data_t *pdata = &mPostData;
+#ifdef DECON_FB
+    struct decon_win_config_data win_data;
+    struct decon_win_config *config = win_data.config;
+#else
     struct s3c_fb_win_config_data win_data;
     struct s3c_fb_win_config *config = win_data.config;
+#endif
     int win_map = 0;
     int tot_ovly_wins = 0;
 
@@ -390,9 +453,19 @@ int ExynosOverlayDisplay::postFrame(hwc_display_contents_1_t* contents)
                 configureOverlay(&layer, config[win_map]);
             }
         }
-        if (i == 0 && config[i].blending != S3C_FB_BLENDING_NONE) {
+        if (i == 0 && config[i].blending !=
+#ifdef DECON_FB
+                DECON_BLENDING_NONE
+#else
+                S3C_FB_BLENDING_NONE
+#endif
+        ) {
             ALOGV("blending not supported on window 0; forcing BLENDING_NONE");
+#ifdef DECON_FB
+            config[i].blending = DECON_BLENDING_NONE;
+#else
             config[i].blending = S3C_FB_BLENDING_NONE;
+#endif
         }
 
         ALOGV("window %u configuration:", i);
@@ -446,7 +519,11 @@ int ExynosOverlayDisplay::postFrame(hwc_display_contents_1_t* contents)
 
 int ExynosOverlayDisplay::clearDisplay()
 {
+#ifdef DECON_FB
+    struct decon_win_config_data win_data;
+#else
     struct s3c_fb_win_config_data win_data;
+#endif
     memset(&win_data, 0, sizeof(win_data));
 
     int ret = ioctl(this->mDisplayFd, S3CFB_WIN_CONFIG, &win_data);
@@ -1095,7 +1172,13 @@ int ExynosOverlayDisplay::waitForRenderFinish(buffer_handle_t *handle, int buffe
     return 0;
 }
 
-int ExynosOverlayDisplay::postGscM2M(hwc_layer_1_t &layer, struct s3c_fb_win_config *config, int win_map, int index)
+int ExynosOverlayDisplay::postGscM2M(hwc_layer_1_t &layer, 
+#ifdef DECON_FB
+        struct decon_win_config *config,
+#else
+        struct s3c_fb_win_config *config,
+#endif
+        int win_map, int index)
 {
     exynos5_hwc_post_data_t *pdata = &mPostData;
     int gsc_idx = pdata->gsc_map[index].idx;
@@ -1138,7 +1221,13 @@ int ExynosOverlayDisplay::postGscM2M(hwc_layer_1_t &layer, struct s3c_fb_win_con
     return 0;
 }
 
-int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer, struct s3c_fb_win_config *config, int win_map, int index)
+int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer, 
+#ifdef DECON_FB
+        struct decon_win_config *config,
+#else
+        struct s3c_fb_win_config *config,
+#endif
+        int win_map, int index)
 {
     exynos5_hwc_post_data_t *pdata = &mPostData;
     int gsc_idx = pdata->gsc_map[index].idx;
@@ -1163,7 +1252,13 @@ int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer, struct s3c_fb_win_con
     return 0;
 }
 
-void ExynosOverlayDisplay::handleStaticLayers(hwc_display_contents_1_t *contents, struct s3c_fb_win_config_data &win_data, int tot_ovly_wins)
+void ExynosOverlayDisplay::handleStaticLayers(hwc_display_contents_1_t *contents, 
+#ifdef DECON_FB
+        struct decon_win_config_data &win_data,
+#else
+        struct s3c_fb_win_config_data &win_data,
+#endif
+        int tot_ovly_wins)
 {
     int win_map = 0;
     if (mLastFbWindow >= NUM_HW_WINDOWS) {
@@ -1173,8 +1268,12 @@ void ExynosOverlayDisplay::handleStaticLayers(hwc_display_contents_1_t *contents
     win_map = getDeconWinMap(mLastFbWindow, tot_ovly_wins);
     ALOGV("[USE] SKIP_STATIC_LAYER_COMP, mLastFbWindow(%d), win_map(%d)\n", mLastFbWindow, win_map);
 
-    memcpy(&win_data.config[win_map],
-            &mLastConfig[win_map], sizeof(struct s3c_fb_win_config));
+    memcpy(&win_data.config[win_map], &mLastConfig[win_map], 
+#ifdef DECON_FB
+            sizeof(struct decon_win_config));
+#else
+            sizeof(struct s3c_fb_win_config));
+#endif
     win_data.config[win_map].fence_fd = -1;
 
     for (size_t i = mFirstFb; i <= mLastFb; i++) {
