@@ -97,7 +97,11 @@ const size_t NUM_HW_WIN_FB_PHY = 5;
 #define DEFAULT_MEDIA_PROCESSOR MEDIA_PROCESSOR_GSC
 #endif
 
+#ifdef DECON_EXYNOS7420
+const size_t NUM_HW_WINDOWS = 7;
+#else
 const size_t NUM_HW_WINDOWS = 5;
+#endif
 const size_t NO_FB_NEEDED = NUM_HW_WINDOWS + 1;
 #ifndef FIMD_BW_OVERLAP_CHECK
 const size_t MAX_NUM_FIMD_DMA_CH = 2;
@@ -140,6 +144,8 @@ const size_t NUM_HDMI_BUFFERS = 3;
 #define HWC_FPS_TH          5    /* valid range 1 to 60 */
 #define VSYNC_INTERVAL (1000000000.0 / 60)
 #define NUM_CONFIG_STABLE   10
+
+#define DECON_EXYNOS7420
 
 typedef enum _COMPOS_MODE_SWITCH {
     NO_MODE_SWITCH,
