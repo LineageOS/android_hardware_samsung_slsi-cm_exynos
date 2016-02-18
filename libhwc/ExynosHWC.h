@@ -97,7 +97,7 @@ const size_t NUM_HW_WIN_FB_PHY = 5;
 #define DEFAULT_MEDIA_PROCESSOR MEDIA_PROCESSOR_GSC
 #endif
 
-const size_t NUM_HW_WINDOWS = 5;
+const size_t NUM_HW_WINDOWS = SOC_NUM_HW_WINDOWS;
 const size_t NO_FB_NEEDED = NUM_HW_WINDOWS + 1;
 #ifndef FIMD_BW_OVERLAP_CHECK
 const size_t MAX_NUM_FIMD_DMA_CH = 2;
@@ -125,10 +125,6 @@ const size_t NUM_GSC_UNITS = sizeof(AVAILABLE_GSC_UNITS) /
         sizeof(AVAILABLE_GSC_UNITS[0]);
 const size_t BURSTLEN_BYTES = FIMD_BURSTLEN * FIMD_WORD_SIZE_BYTES + FIMD_ADDED_BURSTLEN_BYTES;
 const size_t NUM_HDMI_BUFFERS = 3;
-
-#define NUM_VIRT_OVER   5
-
-#define NUM_VIRT_OVER_HDMI 5
 
 #define HWC_PAGE_MISS_TH  5
 
