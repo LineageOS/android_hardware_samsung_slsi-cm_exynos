@@ -224,11 +224,11 @@ void ExynosExternalDisplay::configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_co
     if (layer->compositionType == HWC_BACKGROUND) {
         hwc_color_t color = layer->backgroundColor;
         cfg.state = cfg.S3C_FB_WIN_STATE_COLOR;
-        cfg.color = (color.r << 16) | (color.g << 8) | color.b;
         cfg.x = 0;
         cfg.y = 0;
         cfg.w = this->mXres;
         cfg.h = this->mYres;
+        cfg.color = (color.r << 16) | (color.g << 8) | color.b;
         return;
     }
 
