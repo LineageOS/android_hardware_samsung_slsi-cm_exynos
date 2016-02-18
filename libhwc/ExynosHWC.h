@@ -97,7 +97,13 @@ const size_t NUM_HW_WIN_FB_PHY = 5;
 #define DEFAULT_MEDIA_PROCESSOR MEDIA_PROCESSOR_GSC
 #endif
 
+#define DECON_EXYNOS7420
+
+#ifdef DECON_EXYNOS7420
+const size_t NUM_HW_WINDOWS = 7;
+#else
 const size_t NUM_HW_WINDOWS = 5;
+#endif
 const size_t NO_FB_NEEDED = NUM_HW_WINDOWS + 1;
 #ifndef FIMD_BW_OVERLAP_CHECK
 const size_t MAX_NUM_FIMD_DMA_CH = 2;
