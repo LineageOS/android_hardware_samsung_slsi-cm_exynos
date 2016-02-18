@@ -60,6 +60,12 @@
 #include "ExynosRect.h"
 #include <linux/videodev2.h>
 
+#ifdef DECON_FB
+typedef decon_win_config fb_win_config;
+#else
+typedef s3c_fb_config fb_win_config;
+#endif
+
 #ifdef USE_FB_PHY_LINEAR
 const size_t NUM_HW_WIN_FB_PHY = 5;
 #undef DUAL_VIDEO_OVERLAY_SUPPORT
@@ -97,7 +103,11 @@ const size_t NUM_HW_WIN_FB_PHY = 5;
 #define DEFAULT_MEDIA_PROCESSOR MEDIA_PROCESSOR_GSC
 #endif
 
+#ifdef DECON_FB
+const size_t NUM_HW_WINDOWS = 7;
+#else
 const size_t NUM_HW_WINDOWS = 5;
+#endif
 const size_t NO_FB_NEEDED = NUM_HW_WINDOWS + 1;
 #ifndef FIMD_BW_OVERLAP_CHECK
 const size_t MAX_NUM_FIMD_DMA_CH = 2;
