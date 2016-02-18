@@ -64,13 +64,21 @@ inline bool yuvConfigChanged(video_layer_config &c1, video_layer_config &c2)
 
 void dumpHandle(private_handle_t *h);
 void dumpLayer(hwc_layer_1_t const *l);
+#ifdef DECON_FB
+void dumpConfig(decon_win_config &c);
+#else
 void dumpConfig(s3c_fb_win_config &c);
+#endif
 void dumpMPPImage(exynos_mpp_img &c);
 bool isDstCropWidthAligned(int dest_w);
 bool isTransformed(const hwc_layer_1_t &layer);
 bool isRotated(const hwc_layer_1_t &layer);
 bool isScaled(const hwc_layer_1_t &layer);
+#ifdef DECON_FB
+enum decon_pixel_format halFormatToDeconFormat(int format);
+#else
 enum s3c_fb_pixel_format halFormatToS3CFormat(int format);
+#endif
 bool isFormatSupported(int format);
 bool isFormatRgb(int format);
 bool isFormatYCrCb(int format);
@@ -78,7 +86,11 @@ uint8_t formatToBpp(int format);
 bool isXAligned(const hwc_layer_1_t &layer, int format);
 int getDrmMode(int flags);
 int halFormatToV4L2Format(int format);
+#ifdef DECON_FB
+enum decon_blending halBlendingToDeconBlending(int32_t blending);
+#else
 enum s3c_fb_blending halBlendingToS3CBlending(int32_t blending);
+#endif
 bool isBlendingSupported(int32_t blending);
 bool isOffscreen(hwc_layer_1_t &layer, int xres, int yres);
 bool isSrcCropFloat(hwc_frect &frect);

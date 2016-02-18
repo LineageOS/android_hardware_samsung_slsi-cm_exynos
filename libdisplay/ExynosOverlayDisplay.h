@@ -51,7 +51,11 @@ class ExynosOverlayDisplay : public ExynosDisplay {
 #endif
 #endif
 
+#ifdef DECON_FB
+        struct decon_win_config  mLastConfig[NUM_HW_WINDOWS];
+#else
         struct s3c_fb_win_config mLastConfig[NUM_HW_WINDOWS];
+#endif
         size_t                   mLastFbWindow;
         const void               *mLastHandles[NUM_HW_WINDOWS];
         exynos5_gsc_map_t        mLastGscMap[NUM_HW_WINDOWS];
@@ -89,9 +93,19 @@ class ExynosOverlayDisplay : public ExynosDisplay {
     protected:
         /* Methods */
         void configureOtfWindow(hwc_rect_t &displayFrame,
-                int32_t blending, int32_t planeAlpha, int format, s3c_fb_win_config &cfg);
+                int32_t blending, int32_t planeAlpha, int format, 
+#ifdef DECON_FB
+                decon_win_config &cfg);
+#else
+                s3c_fb_win_config &cfg);
+#endif
         void configureHandle(private_handle_t *handle, hwc_frect_t &sourceCrop,
-                hwc_rect_t &displayFrame, int32_t blending, int32_t planeAlpha, int fence_fd, s3c_fb_win_config &cfg);
+                hwc_rect_t &displayFrame, int32_t blending, int32_t planeAlpha, int fence_fd, 
+#ifdef DECON_FB
+                decon_win_config &cfg);
+#else
+                s3c_fb_win_config &cfg);
+#endif
         int clearDisplay();
         void skipStaticLayers(hwc_display_contents_1_t *contents);
         void determineSupportedOverlays(hwc_display_contents_1_t *contents);
@@ -99,13 +113,36 @@ class ExynosOverlayDisplay : public ExynosDisplay {
         void determineYuvOverlay(hwc_display_contents_1_t *contents);
         void assignWindows(hwc_display_contents_1_t *contents);
         bool assignGscLayer(hwc_layer_1_t &layer, int index, int nextWindow);
-        int postGscOtf(hwc_layer_1_t &layer, struct s3c_fb_win_config *config, int win_map, int index);
-        void handleStaticLayers(hwc_display_contents_1_t *contents, struct s3c_fb_win_config_data &win_data, int tot_ovly_wins);
+        int postGscOtf(hwc_layer_1_t &layer, 
+#ifdef DECON_FB
+                struct decon_win_config *config,
+#else
+                struct s3c_fb_win_config *config,
+#endif
+                int win_map, int index);
+        void handleStaticLayers(hwc_display_contents_1_t *contents, 
+#ifdef DECON_FB
+                struct decon_win_config_data &win_data,
+#else
+                struct s3c_fb_win_config_data &win_data,
+#endif
+                int tot_ovly_wins);
         void cleanupGscs();
 
-        virtual int postGscM2M(hwc_layer_1_t &layer, struct s3c_fb_win_config *config, int win_map, int index);
+        virtual int postGscM2M(hwc_layer_1_t &layer, 
+#ifdef DECON_FB
+                struct decon_win_config *config,
+#else
+                struct s3c_fb_win_config *config,
+#endif
+                int win_map, int index);
         virtual void forceYuvLayersToFb(hwc_display_contents_1_t *contents);
-        virtual void configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_config &cfg);
+        virtual void configureOverlay(hwc_layer_1_t *layer, 
+#ifdef DECON_FB
+                decon_win_config &cfg);
+#else
+                s3c_fb_win_config &cfg);
+#endif
         virtual bool isOverlaySupported(hwc_layer_1_t &layer, size_t i);
         virtual int postFrame(hwc_display_contents_1_t *contents);
         virtual int waitForRenderFinish(buffer_handle_t *handle, int buffers);
