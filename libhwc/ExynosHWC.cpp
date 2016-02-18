@@ -640,14 +640,22 @@ void exynos5_dump(hwc_composer_device_1* dev, char *buff, int buff_len)
     //        8_______ | 8_______ | 8_______ | 5____ | 6_____ | [5____,5____] | [5____,5____] | 3__ \n"
 
     for (size_t i = 0; i < NUM_HW_WINDOWS; i++) {
-        struct s3c_fb_win_config &config = pdev->primaryDisplay->mLastConfig[i];
+        fb_win_config &config = pdev->primaryDisplay->mLastConfig[i];
+#ifdef DECON_FB
+        if ((config.state == config.DECON_WIN_STATE_DISABLED) &&
+#else
         if ((config.state == config.S3C_FB_WIN_STATE_DISABLED) &&
+#endif
             (pdev->primaryDisplay->mLastGscMap[i].mode == exynos5_gsc_map_t::GSC_NONE)){
             result.appendFormat(" %8s | %8s | %8s | %5s | %6s | %13s | %13s",
                     "OVERLAY", "-", "-", "-", "-", "-", "-");
         }
         else {
+#ifdef DECON_FB
+            if (config.state == config.DECON_WIN_STATE_COLOR)
+#else
             if (config.state == config.S3C_FB_WIN_STATE_COLOR)
+#endif
                 result.appendFormat(" %8s | %8s | %8x | %5s | %6s", "COLOR",
                         "-", config.color, "-", "-");
             else
@@ -656,8 +664,15 @@ void exynos5_dump(hwc_composer_device_1* dev, char *buff, int buff_len)
                         intptr_t(pdev->primaryDisplay->mLastHandles[i]),
                         "-", config.blending, config.format);
 
-            result.appendFormat(" | [%5d,%5d] | [%5u,%5u]", config.x, config.y,
+            result.appendFormat(" | [%5d,%5d] | [%5u,%5u]",
+#ifdef DECON_FB
+                    // src == dst
+                    config.src.x, config.src.y,
+                    config.src.w, config.src.h);
+#else
+                    config.x, config.y,
                     config.w, config.h);
+#endif
         }
         if (pdev->primaryDisplay->mLastGscMap[i].mode == exynos5_gsc_map_t::GSC_NONE) {
             result.appendFormat(" | %3s", "-");
