@@ -33,6 +33,8 @@
 #define V4L2_DV_1080P30_TB 44
 #endif
 
+#define DECON_EXYNOS7420
+
 void dumpHandle(private_handle_t *h)
 {
     ALOGV("\t\tformat = %d, width = %u, height = %u, stride = %u, vstride = %u",
@@ -58,7 +60,7 @@ void dumpLayer(hwc_layer_1_t const *l)
         dumpHandle(private_handle_t::dynamicCast(l->handle));
 }
 
-void dumpConfig(s3c_fb_win_config &c)
+void dumpConfig(decon_win_config &c)
 {
     ALOGV("\tstate = %u", c.state);
     if (c.state == c.S3C_FB_WIN_STATE_BUFFER) {
@@ -112,6 +114,27 @@ bool isScaled(const hwc_layer_1_t &layer)
             HEIGHT(layer.displayFrame) != HEIGHT(layer.sourceCropf);
 }
 
+#ifdef DECON_EXYNOS7420
+enum s3c_fb_pixel_format halFormatToDeconFormat(int format)
+{
+    switch (format) {
+        case HAL_PIXEL_FORMAT_RGBA_8888:
+            return DECON_PIXEL_FORMAT_RGBA_8888;
+        case HAL_PIXEL_FORMAT_RGBX_8888:
+            return DECON_PIXEL_FORMAT_RGBX_8888;
+        case HAL_PIXEL_FORMAT_RGB_565:
+            return DECON_PIXEL_FORMAT_RGB_565;
+        case HAL_PIXEL_FORMAT_BGRA_8888:
+            return DECON_PIXEL_FORMAT_BGRA_8888;
+#ifdef EXYNOS_SUPPORT_BGRX_8888
+        case HAL_PIXEL_FORMAT_BGRX_8888:
+            return DECON_PIXEL_FORMAT_BGRX_8888;
+#endif
+        default:
+            return DECON_PIXEL_FORMAT_MAX;
+    }
+}
+#else
 enum s3c_fb_pixel_format halFormatToS3CFormat(int format)
 {
     switch (format) {
@@ -131,10 +154,15 @@ enum s3c_fb_pixel_format halFormatToS3CFormat(int format)
         return S3C_FB_PIXEL_FORMAT_MAX;
     }
 }
+#endif
 
 bool isFormatSupported(int format)
 {
+#ifdef DECON_EXYNOS7420
+    return halFormatToDeconFormat(format) < DECON_PIXEL_FORMAT_MAX;
+#else
     return halFormatToS3CFormat(format) < S3C_FB_PIXEL_FORMAT_MAX;
+#endif
 }
 
 bool isFormatRgb(int format)
@@ -219,24 +247,45 @@ int halFormatToV4L2Format(int format)
         return HAL_PIXEL_FORMAT_2_V4L2_PIX(format);
 }
 
-enum s3c_fb_blending halBlendingToS3CBlending(int32_t blending)
+#ifdef DECON_EXYNOS7420
+enum s3c_fb_blending halBlendingToDeconBlending(int32_t blending)
 {
     switch (blending) {
     case HWC_BLENDING_NONE:
-        return S3C_FB_BLENDING_NONE;
+        return DECON_BLENDING_NONE;
     case HWC_BLENDING_PREMULT:
-        return S3C_FB_BLENDING_PREMULT;
+        return DECON_BLENDING_PREMULT;
     case HWC_BLENDING_COVERAGE:
-        return S3C_FB_BLENDING_COVERAGE;
+        return DECON_BLENDING_COVERAGE;
 
     default:
-        return S3C_FB_BLENDING_MAX;
+        return DECON_BLENDING_MAX;
     }
 }
+#else
+enum s3c_fb_blending halBlendingToS3CBlending(int32_t blending)
+{
+    switch (blending) {
+        case HWC_BLENDING_NONE:
+            return S3C_FB_BLENDING_NONE;
+        case HWC_BLENDING_PREMULT:
+            return S3C_FB_BLENDING_PREMULT;
+        case HWC_BLENDING_COVERAGE:
+            return S3C_FB_BLENDING_COVERAGE;
+            
+        default:
+            return S3C_FB_BLENDING_MAX;
+    }
+}
+#endif
 
 bool isBlendingSupported(int32_t blending)
 {
+#ifdef DECON_EXYNOS7420
+    return halBlendingToDeconBlending(blending) < DECON_BLENDING_MAX;
+#else
     return halBlendingToS3CBlending(blending) < S3C_FB_BLENDING_MAX;
+#endif
 }
 
 bool isOffscreen(hwc_layer_1_t &layer, int xres, int yres)

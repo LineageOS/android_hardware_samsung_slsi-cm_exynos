@@ -159,7 +159,7 @@ int ExynosExternalDisplay::prepare(hwc_display_contents_1_t* contents)
 
 void ExynosExternalDisplay::configureHandle(private_handle_t *handle,
         hwc_frect_t &sourceCrop, hwc_rect_t &displayFrame,
-        int32_t blending, int32_t planeAlpha, int fence_fd, s3c_fb_win_config &cfg)
+        int32_t blending, int32_t planeAlpha, int fence_fd, decon_win_config &cfg)
 {
     uint32_t x, y;
     uint32_t w = WIDTH(displayFrame);
@@ -219,7 +219,7 @@ void ExynosExternalDisplay::configureHandle(private_handle_t *handle,
     }
 }
 
-void ExynosExternalDisplay::configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_config &cfg)
+void ExynosExternalDisplay::configureOverlay(hwc_layer_1_t *layer, decon_win_config &cfg)
 {
     if (layer->compositionType == HWC_BACKGROUND) {
         hwc_color_t color = layer->backgroundColor;
@@ -240,13 +240,13 @@ void ExynosExternalDisplay::configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_co
 int ExynosExternalDisplay::postFrame(hwc_display_contents_1_t* contents)
 {
     exynos5_hwc_post_data_t *pdata = &mPostData;
-    struct s3c_fb_win_config_data win_data;
-    struct s3c_fb_win_config *config = win_data.config;
+    struct decon_win_config_data win_data;
+    struct decon_win_config *config = win_data.config;
     int win_map = 0;
     int tot_ovly_wins = 0;
 
     memset(config, 0, sizeof(win_data.config));
-    for (size_t i = 0; i < S3C_FB_MAX_WIN; i++)
+    for (size_t i = 0; i < MAX_DECON_WIN; i++)
         config[i].fence_fd = -1;
 
     for (size_t i = 0; i < NUM_HDMI_WINDOWS; i++) {
@@ -335,7 +335,7 @@ int ExynosExternalDisplay::postFrame(hwc_display_contents_1_t* contents)
 
 int ExynosExternalDisplay::clearDisplay()
 {
-    struct s3c_fb_win_config_data win_data;
+    struct decon_win_config_data win_data;
     memset(&win_data, 0, sizeof(win_data));
 
     int ret = ioctl(this->mDisplayFd, S3CFB_WIN_CONFIG, &win_data);
@@ -773,7 +773,7 @@ bool ExynosExternalDisplay::assignGscLayer(hwc_layer_1_t &layer, int index, int 
     return true;
 }
 
-int ExynosExternalDisplay::postGscM2M(hwc_layer_1_t &layer, struct s3c_fb_win_config *config, int win_map, int index)
+int ExynosExternalDisplay::postGscM2M(hwc_layer_1_t &layer, struct decon_win_config *config, int win_map, int index)
 {
     exynos5_hwc_post_data_t *pdata = &mPostData;
     //int gsc_idx = pdata->gsc_map[index].idx;
@@ -807,12 +807,12 @@ int ExynosExternalDisplay::postGscM2M(hwc_layer_1_t &layer, struct s3c_fb_win_co
     return 0;
 }
 
-void ExynosExternalDisplay::handleStaticLayers(hwc_display_contents_1_t *contents, struct s3c_fb_win_config_data &win_data, int tot_ovly_wins)
+void ExynosExternalDisplay::handleStaticLayers(hwc_display_contents_1_t *contents, struct decon_win_config_data &win_data, int tot_ovly_wins)
 {
     ALOGV("[USE] SKIP_STATIC_LAYER_COMP\n");
     int last_ovly_win_map = mLastOverlayWindowIndex + 2;
     memcpy(&win_data.config[last_ovly_win_map],
-        &mLastConfig[last_ovly_win_map], sizeof(struct s3c_fb_win_config));
+        &mLastConfig[last_ovly_win_map], sizeof(struct decon_win_config));
     win_data.config[last_ovly_win_map].fence_fd = -1;
     for (size_t i = mLastOverlayLayerIndex + 1; i < contents->numHwLayers; i++) {
         hwc_layer_1_t &layer = contents->hwLayers[i];
