@@ -101,7 +101,7 @@ class ExynosExternalDisplay : public ExynosDisplay {
 
         uint32_t                 mDmaChannelMaxBandwidth[MAX_NUM_HDMI_DMA_CH];
         uint32_t                 mDmaChannelMaxOverlapCount[MAX_NUM_HDMI_DMA_CH];
-        struct s3c_fb_win_config mLastConfig[S3C_FB_MAX_WIN];
+        struct decon_win_config mLastConfig[MAX_DECON_WIN];
         exynos5_gsc_map_t        mLastGscMap[NUM_HW_WINDOWS];
         const void               *mLastHandles[NUM_HDMI_WINDOWS];
         bool                    mUseSubtitles;
@@ -112,20 +112,20 @@ class ExynosExternalDisplay : public ExynosDisplay {
         void determineBandwidthSupport(hwc_display_contents_1_t *contents);
         void assignWindows(hwc_display_contents_1_t *contents);
         bool assignGscLayer(hwc_layer_1_t &layer, int index, int nextWindow);
-        int postGscM2M(hwc_layer_1_t &layer, struct s3c_fb_win_config *config, int win_map, int index);
+        int postGscM2M(hwc_layer_1_t &layer, struct decon_win_config *config, int win_map, int index);
         void configureHandle(private_handle_t *handle, hwc_frect_t &sourceCrop,
-                hwc_rect_t &displayFrame, int32_t blending, int32_t planeAlpha, int fence_fd, s3c_fb_win_config &cfg);
+                hwc_rect_t &displayFrame, int32_t blending, int32_t planeAlpha, int fence_fd, decon_win_config &cfg);
         void skipStaticLayers(hwc_display_contents_1_t *contents);
-        void handleStaticLayers(hwc_display_contents_1_t *contents, struct s3c_fb_win_config_data &win_data, int tot_ovly_wins);
+        void handleStaticLayers(hwc_display_contents_1_t *contents, struct decon_win_config_data &win_data, int tot_ovly_wins);
         void skipUILayers(hwc_display_contents_1_t *contents);
         void cleanupGscs();
         int clearDisplay();
         int getDVTimingsIndex(int preset);
 
-        //virtual void configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_config &cfg);
+        //virtual void configureOverlay(hwc_layer_1_t *layer, decon_win_config &cfg);
         //virtual bool isOverlaySupported(hwc_layer_1_t &layer, size_t i);
         //virtual int postFrame(hwc_display_contents_1_t *contents);
-        void configureOverlay(hwc_layer_1_t *layer, s3c_fb_win_config &cfg);
+        void configureOverlay(hwc_layer_1_t *layer, decon_win_config &cfg);
         bool isOverlaySupported(hwc_layer_1_t &layer, size_t i);
         int postFrame(hwc_display_contents_1_t *contents);
 };
