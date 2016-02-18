@@ -24,6 +24,10 @@ else
         LOCAL_SHARED_LIBRARIES += libexynosgscaler
 endif
 
+ifeq ($(BOARD_USES_DECON_FB),true)
+	LOCAL_CFLAGS += -DDECON_FB
+endif
+
 ifeq ($(BOARD_USES_FIMC), true)
 	LOCAL_CFLAGS += -DUSES_FIMC
 endif

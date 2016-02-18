@@ -29,6 +29,10 @@ ifeq ($(BOARD_USE_S3D_SUPPORT),true)
 endif
 endif
 
+ifeq ($(BOARD_USES_DECON_FB),true)
+	LOCAL_CFLAGS += -DDECON_FB
+endif
+
 ifeq ($(BOARD_USES_VIRTUAL_DISPLAY), true)
 	LOCAL_CFLAGS += -DUSES_VIRTUAL_DISPLAY
 endif

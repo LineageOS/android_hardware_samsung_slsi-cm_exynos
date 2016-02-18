@@ -1217,13 +1217,7 @@ int ExynosOverlayDisplay::postGscM2M(hwc_layer_1_t &layer,
     return 0;
 }
 
-int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer, 
-#ifdef DECON_FB
-        struct decon_win_config *config,
-#else
-        struct s3c_fb_win_config *config,
-#endif
-        int win_map, int index)
+int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer, struct decon_win_config *config, int win_map, int index)
 {
     exynos5_hwc_post_data_t *pdata = &mPostData;
     int gsc_idx = pdata->gsc_map[index].idx;
@@ -1248,13 +1242,7 @@ int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer,
     return 0;
 }
 
-void ExynosOverlayDisplay::handleStaticLayers(hwc_display_contents_1_t *contents, 
-#ifdef DECON_FB
-        struct decon_win_config_data &win_data, 
-#else
-        struct s3c_fb_win_config_data &win_data,
-#endif
-        int tot_ovly_wins)
+void ExynosOverlayDisplay::handleStaticLayers(hwc_display_contents_1_t *contents, struct decon_win_config_data &win_data, int tot_ovly_wins)
 {
     int win_map = 0;
     if (mLastFbWindow >= NUM_HW_WINDOWS) {
