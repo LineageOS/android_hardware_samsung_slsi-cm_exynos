@@ -16,6 +16,23 @@
       "revId": "874eeba0fd46251d5b3049923af5c2e78f85ac72",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_bc2612b7",
+        "filename": "libdisplay/ExynosOverlayDisplay.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6334
+      },
+      "writtenOn": "2016-02-24T12:56:31Z",
+      "side": 1,
+      "message": "only when compiling libhwc, which compiles libdisplaymodule as a dependency.",
+      "revId": "874eeba0fd46251d5b3049923af5c2e78f85ac72",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
