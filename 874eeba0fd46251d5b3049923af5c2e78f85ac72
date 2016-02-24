@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_dc2746b6",
+        "filename": "libdisplay/ExynosOverlayDisplay.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6334
+      },
+      "writtenOn": "2016-02-24T12:47:04Z",
+      "side": 1,
+      "message": "For some reason have to set the CFLAG in exynos7420/libdisplaymodule for this to be correctly hit.",
+      "revId": "874eeba0fd46251d5b3049923af5c2e78f85ac72",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
