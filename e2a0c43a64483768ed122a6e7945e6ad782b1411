@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_9759a7ff",
+        "filename": "libdisplay/ExynosOverlayDisplay.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T05:13:15Z",
+      "side": 1,
+      "message": "Why not define BLENDING_NONE in the HWC header, or use SOC_BLENDING_NONE directly?",
+      "revId": "e2a0c43a64483768ed122a6e7945e6ad782b1411",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
