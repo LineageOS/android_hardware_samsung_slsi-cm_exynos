@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_9c822ec8",
+        "filename": "include/framebuffer.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T01:36:57Z",
+      "side": 1,
+      "message": "You could move the typedef for fb_win_config to ExynosHWCModule.h instead.",
+      "revId": "b65b72fb1c83d7d119c9aee020098cc1990eef7d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_9c0d4e92",
+        "filename": "libhwc/ExynosHWC.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T01:36:57Z",
+      "side": 1,
+      "message": "I wonder if it\u0027d be possible to have another layer of indirection here and have something like FB_WIN_STATE_DISABLED instead of S3C/DECON_WIN_STATE_DISABLED?",
+      "range": {
+        "startLine": 647,
+        "startChar": 36,
+        "endLine": 647,
+        "endChar": 60
+      },
+      "revId": "b65b72fb1c83d7d119c9aee020098cc1990eef7d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_bc1292b0",
+        "filename": "libhwc/ExynosHWC.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T01:36:57Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 657,
+        "startChar": 39,
+        "endLine": 657,
+        "endChar": 60
+      },
+      "revId": "b65b72fb1c83d7d119c9aee020098cc1990eef7d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_fc180ad4",
+        "filename": "libhwc/ExynosHWC.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T01:36:57Z",
+      "side": 1,
+      "message": "Might be better to define this in the exynos54XX/exynos74XX header and have const size_T NUM_HW_WINDOWS \u003d TARGET_NUM_HW_WINDOWS instead?",
+      "range": {
+        "startLine": 101,
+        "startChar": 30,
+        "endLine": 101,
+        "endChar": 31
+      },
+      "revId": "b65b72fb1c83d7d119c9aee020098cc1990eef7d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_3c1ea2ba",
+        "filename": "libhwcutils/ExynosHWCUtils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T01:36:57Z",
+      "side": 1,
+      "message": "If you can abstract the pixel format type, this function can be abstracted as well. That would let the device-specific headers (the ones found in hardware/samsung_slsi-cm/exynosXXXX) define the mapping from something like fb_pixel_format to the actual device specific format.",
+      "range": {
+        "startLine": 126,
+        "startChar": 24,
+        "endLine": 126,
+        "endChar": 46
+      },
+      "revId": "b65b72fb1c83d7d119c9aee020098cc1990eef7d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_dc78a6f9",
+        "filename": "libhwcutils/ExynosHWCUtils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T01:36:57Z",
+      "side": 1,
+      "message": "Could do the same thing here as proposed for the pixel format function.",
+      "range": {
+        "startLine": 259,
+        "startChar": 20,
+        "endLine": 259,
+        "endChar": 46
+      },
+      "revId": "b65b72fb1c83d7d119c9aee020098cc1990eef7d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_5c27d613",
+        "filename": "libhwcutils/ExynosHWCUtils.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-02-25T01:36:57Z",
+      "side": 1,
+      "message": "Any way this type (and the accompanying formats) can  be abstracted as well?",
+      "range": {
+        "startLine": 76,
+        "startChar": 5,
+        "endLine": 76,
+        "endChar": 23
+      },
+      "revId": "b65b72fb1c83d7d119c9aee020098cc1990eef7d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
