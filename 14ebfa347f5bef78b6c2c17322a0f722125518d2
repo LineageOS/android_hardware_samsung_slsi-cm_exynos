@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_aef9ed80",
+        "filename": "libcsc/csc.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-03-01T03:55:45Z",
+      "side": 1,
+      "message": "Can\u0027t you do ifdef __ARM_NEON__ or __aarch64__ here instead of passing your own flag from Android.mk?",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 20
+      },
+      "revId": "14ebfa347f5bef78b6c2c17322a0f722125518d2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
