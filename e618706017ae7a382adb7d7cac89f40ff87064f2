@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_ee0da590",
+        "filename": "libcsc/Android.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-03-01T04:10:13Z",
+      "side": 1,
+      "message": "Don\u0027t need to change this line.",
+      "revId": "e618706017ae7a382adb7d7cac89f40ff87064f2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_0e1359b7",
+        "filename": "libcsc/csc.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-03-01T04:10:13Z",
+      "side": 1,
+      "message": "Personally, I\u0027d swap this for ifdef __aarch64__ so it\u0027s explicit that ARM64 is not meant to get NEON.",
+      "range": {
+        "startLine": 139,
+        "startChar": 1,
+        "endLine": 139,
+        "endChar": 7
+      },
+      "revId": "e618706017ae7a382adb7d7cac89f40ff87064f2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
