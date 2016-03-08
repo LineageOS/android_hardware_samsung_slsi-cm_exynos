@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_9bbc5fdd",
+        "filename": "libdisplay/ExynosOverlayDisplay.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-03-08T00:50:02Z",
+      "side": 1,
+      "message": "Could have done property_get_int32 or something similar here to avoid the nasty conversions between string and int.",
+      "revId": "6fd658cee461e7630fb6100aa44ba8b714a8ee1b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
