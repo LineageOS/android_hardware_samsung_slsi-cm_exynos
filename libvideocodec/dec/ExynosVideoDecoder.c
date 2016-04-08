@@ -677,10 +677,13 @@ static ExynosVideoErrorType MFC_Decoder_Enable_SEIParsing(void *pHandle)
         goto EXIT;
     }
 
+#ifdef NO_VIDEO_H264_SUPPORT
     if (exynos_v4l2_s_ctrl(pCtx->hDec, V4L2_CID_MPEG_VIDEO_H264_SEI_FRAME_PACKING, 1) != 0) {
         ret = VIDEO_ERROR_APIFAIL;
         goto EXIT;
     }
+#else
+#endif
 
 EXIT:
     return ret;

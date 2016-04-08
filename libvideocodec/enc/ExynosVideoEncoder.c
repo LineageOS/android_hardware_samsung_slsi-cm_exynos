@@ -524,7 +524,7 @@ static ExynosVideoErrorType MFC_Encoder_Set_EncParam (
             ext_ctrl[39].value = V4L2_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE_DISABLED;
             break;
         }
-
+#ifdef NO_VIDEO_H264_SUPPORT
         /* SVC is not supported yet */
         ext_ctrl[40].id =  V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING;
         ext_ctrl[40].value = 0;
@@ -577,7 +577,8 @@ static ExynosVideoErrorType MFC_Encoder_Set_EncParam (
             ext_ctrl[59 + i].id =  V4L2_CID_MPEG_VIDEO_H264_ASO_SLICE_ORDER;
             ext_ctrl[59 + i].value = (i << 16 | 0);
         }
-
+#else
+#endif
         ext_ctrls.count = H264_CTRL_NUM;
         break;
     }

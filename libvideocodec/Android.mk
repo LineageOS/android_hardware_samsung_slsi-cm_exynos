@@ -6,6 +6,10 @@ ifeq ($(BOARD_USE_VP8ENC_SUPPORT), true)
 LOCAL_CFLAGS += -DUSE_VP8ENC_SUPPORT
 endif
 
+ifeq ($(BOARD_NO_MPEG_VIDEO_H264_SUPPORT), true)
+LOCAL_CFLAGS += -DNO_VIDEO_H264_SUPPORT
+endif
+
 LOCAL_SRC_FILES := \
 	ExynosVideoInterface.c \
 	dec/ExynosVideoDecoder.c \
