@@ -22,6 +22,7 @@
 
 #include <linux/videodev2.h>
 #include <linux/videodev2_exynos_media.h>
+#include <linux/videodev2_exynos_media_ext.h>
 
 /*
  * G E N E R A L S

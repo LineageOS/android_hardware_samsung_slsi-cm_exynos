@@ -21,6 +21,7 @@
 
 #include <linux/videodev2.h>
 #include <linux/videodev2_exynos_media.h>
+#include <linux/videodev2_exynos_media_ext.h>
 
 #ifdef __cplusplus
 extern "C" {
