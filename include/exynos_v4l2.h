@@ -43,6 +43,9 @@ extern "C" {
 #include <stdbool.h>
 #include <linux/videodev2.h> /* vendor specific videodev2.h */
 #include <linux/videodev2_exynos_media.h>
+#ifdef USES_MEDIA_EXT
+#include <linux/videodev2_exynos_media_ext.h>
+#endif
 
 /*! \ingroup exynos_v4l2 */
 int exynos_v4l2_open(const char *filename, int oflag, ...);

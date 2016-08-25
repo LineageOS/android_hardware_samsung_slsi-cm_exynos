@@ -22,6 +22,9 @@
 
 #include <linux/videodev2.h>
 #include <linux/videodev2_exynos_media.h>
+#ifdef USES_MEDIA_EXT
+#include <linux/videodev2_exynos_media_ext.h>
+#endif
 
 /*
  * G E N E R A L S
