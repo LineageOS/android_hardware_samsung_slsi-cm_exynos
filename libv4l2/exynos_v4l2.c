@@ -85,6 +85,9 @@ static int __v4l2_open(const char *filename, int oflag, va_list ap)
 
     fd = open(filename, oflag, mode);
 
+    if (fd <= 0)
+        ALOGE("%s failed! (file: %s, oflag: %d, fd: %d)", __func__, filename, oflag, fd);
+
     return fd;
 }
 
