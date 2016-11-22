@@ -303,7 +303,11 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.fd_idma[0] = handle->fd;
     cfg.fd_idma[1] = -1; //FIXME
     cfg.fd_idma[2] = -1; //FIXME
+#ifeq ($(TARGET_SOC),exynos8890)
+    cfg.idma_type = IDMA_G1;
+#else
     cfg.idma_type = IDMA_G0;
+#endif
     cfg.dst.x = x;
     cfg.dst.y = y;
     cfg.dst.w = w;
