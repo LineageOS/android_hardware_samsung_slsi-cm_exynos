@@ -38,6 +38,10 @@ ifeq ($(TARGET_SOC), exynos5430)
 LOCAL_CFLAGS += -DSOC_EXYNOS5430
 endif
 
+ifeq ($(TARGET_SOC), exynos5422)
+LOCAL_CFLAGS += -DSOC_EXYNOS5430
+endif
+
 ifeq ($(TARGET_SOC), exynos5433)
 LOCAL_CFLAGS += -DSOC_EXYNOS5430
 endif
@@ -47,6 +51,10 @@ LOCAL_CFLAGS += -DSOC_EXYNOS5430
 endif
 
 ifeq ($(TARGET_SOC), exynos7580)
+LOCAL_CFLAGS += -DSOC_EXYNOS5430
+endif
+
+ifeq ($(TARGET_SOC), exynos8890)
 LOCAL_CFLAGS += -DSOC_EXYNOS5430
 endif
 
