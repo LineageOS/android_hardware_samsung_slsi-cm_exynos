@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f560f44_37fe7805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-11-22T20:40:59Z",
+      "side": 1,
+      "message": "Needs a newline between the lines. Git expects the topic line to have a newline after it, followed by the summary.",
+      "revId": "604f00825c493428ae5eb0db5c3786cd62ca5e99",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f560f44_1703740f",
+        "filename": "libdisplay/ExynosOverlayDisplay.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-11-22T20:40:59Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "604f00825c493428ae5eb0db5c3786cd62ca5e99",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f560f44_570dec35",
+        "filename": "libvideocodec/Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-11-22T20:40:59Z",
+      "side": 1,
+      "message": "This seems like it doesn\u0027t belong in this commit.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "604f00825c493428ae5eb0db5c3786cd62ca5e99",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f560f44_b711e856",
+        "filename": "libvideocodec/dec/ExynosVideoDecoder.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-11-22T20:40:59Z",
+      "side": 1,
+      "message": "Is this conditional based on SoC?",
+      "revId": "604f00825c493428ae5eb0db5c3786cd62ca5e99",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
