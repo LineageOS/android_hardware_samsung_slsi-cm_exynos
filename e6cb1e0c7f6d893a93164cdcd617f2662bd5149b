@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f681702_a35b582c",
+        "filename": "libdisplay/ExynosOverlayDisplay.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-11-27T21:33:02Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "e6cb1e0c7f6d893a93164cdcd617f2662bd5149b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
