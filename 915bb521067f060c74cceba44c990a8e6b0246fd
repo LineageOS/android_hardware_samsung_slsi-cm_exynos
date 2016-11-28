@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f681702_234588b4",
+        "filename": "libvideocodec/dec/ExynosVideoDecoder.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2016-11-28T01:56:09Z",
+      "side": 1,
+      "message": "this is invalid syntax",
+      "revId": "915bb521067f060c74cceba44c990a8e6b0246fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f681702_8313bcb8",
+        "filename": "libvideocodec/enc/ExynosVideoEncoder.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2016-11-28T01:56:09Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "915bb521067f060c74cceba44c990a8e6b0246fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
