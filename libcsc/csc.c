@@ -28,6 +28,7 @@
  *   2012.1.11 : Create
  */
 #define LOG_TAG "libcsc"
+#include <errno.h>
 #include <cutils/log.h>
 
 #include <stdio.h>
@@ -54,7 +55,7 @@
 #ifdef ENABLE_G2D
 #include <fcntl.h>
 #include <sys/ioctl.h>
-#include "fimg2d.h"
+#include <linux/fimg2d.h>
 
 typedef struct
 {
