@@ -18,13 +18,17 @@
 #define LOG_TAG "libcsc_helper"
 #include <cutils/log.h>
 
+#include <linux/fimg2d.h>
 #include <system/graphics.h>
 
 #include "Exynos_OMX_Def.h"
 
 #include "csc.h"
 #include "exynos_format.h"
-#include "fimg2d.h"
+
+#ifndef OMX_SEC_COLOR_FormatNV12Tiled
+#define OMX_SEC_COLOR_FormatNV12Tiled 0x7FC00002
+#endif
 
 OMX_COLOR_FORMATTYPE hal_2_omx_pixel_format(
     unsigned int hal_format)
@@ -34,19 +38,19 @@ OMX_COLOR_FORMATTYPE hal_2_omx_pixel_format(
     case HAL_PIXEL_FORMAT_YCbCr_422_I:
         omx_format = OMX_COLOR_FormatYCbYCr;
         break;
-    case HAL_PIXEL_FORMAT_YCbCr_420_P:
+    case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_P_M:
         omx_format = OMX_COLOR_FormatYUV420Planar;
         break;
-    case HAL_PIXEL_FORMAT_YCbCr_420_SP:
+    case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
         omx_format = OMX_COLOR_FormatYUV420SemiPlanar;
         break;
-    case HAL_PIXEL_FORMAT_CUSTOM_YCbCr_420_SP_TILED:
+    case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_TILED:
         omx_format = OMX_SEC_COLOR_FormatNV12TPhysicalAddress;
         break;
-    case HAL_PIXEL_FORMAT_YCbCr_420_SP_TILED:
+    case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M_TILED:
         omx_format = OMX_SEC_COLOR_FormatNV12Tiled;
         break;
-    case HAL_PIXEL_FORMAT_CUSTOM_ARGB_8888:
+    case HAL_PIXEL_FORMAT_EXYNOS_ARGB_8888:
         omx_format = OMX_COLOR_Format32bitARGB8888;
         break;
     default:
@@ -65,22 +69,22 @@ unsigned int omx_2_hal_pixel_format(
         hal_format = HAL_PIXEL_FORMAT_YCbCr_422_I;
         break;
     case OMX_COLOR_FormatYUV420Planar:
-        hal_format = HAL_PIXEL_FORMAT_YCbCr_420_P;
+        hal_format = HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_P_M;
         break;
     case OMX_COLOR_FormatYUV420SemiPlanar:
-        hal_format = HAL_PIXEL_FORMAT_YCbCr_420_SP;
+        hal_format = HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M;
         break;
     case OMX_SEC_COLOR_FormatNV12TPhysicalAddress:
-        hal_format = HAL_PIXEL_FORMAT_CUSTOM_YCbCr_420_SP_TILED;
+        hal_format = HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_TILED;
         break;
     case OMX_SEC_COLOR_FormatNV12Tiled:
-        hal_format = HAL_PIXEL_FORMAT_YCbCr_420_SP_TILED;
+        hal_format = HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M_TILED;
         break;
     case OMX_COLOR_Format32bitARGB8888:
-        hal_format = HAL_PIXEL_FORMAT_CUSTOM_ARGB_8888;
+        hal_format = HAL_PIXEL_FORMAT_EXYNOS_ARGB_8888;
         break;
     default:
-        hal_format = HAL_PIXEL_FORMAT_YCbCr_420_P;
+        hal_format = HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_P_M;
         break;
     }
     return hal_format;
@@ -91,7 +95,7 @@ unsigned int hal_2_g2d_color_format(unsigned int hal_format)
     switch (hal_format) {
     case HAL_PIXEL_FORMAT_RGBA_8888:
     case HAL_PIXEL_FORMAT_BGRA_8888:
-    case HAL_PIXEL_FORMAT_CUSTOM_ARGB_8888:
+    case HAL_PIXEL_FORMAT_EXYNOS_ARGB_8888:
         return CF_ARGB_8888;
 
     case HAL_PIXEL_FORMAT_RGBX_8888:
@@ -103,16 +107,10 @@ unsigned int hal_2_g2d_color_format(unsigned int hal_format)
     case HAL_PIXEL_FORMAT_RGB_565:
         return CF_RGB_565;
 
-    case HAL_PIXEL_FORMAT_RGBA_5551:
-        return CF_ARGB_1555;
-
-    case HAL_PIXEL_FORMAT_RGBA_4444:
-        return CF_ARGB_4444;
-
     case HAL_PIXEL_FORMAT_YCbCr_422_I:
         return CF_YCBCR_422;
 
-    case HAL_PIXEL_FORMAT_YCbCr_420_SP:
+    case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
         return CF_YCBCR_420;
 
     default:
@@ -124,21 +122,19 @@ unsigned int hal_2_g2d_pixel_order(unsigned int hal_format)
 {
     switch (hal_format) {
     case HAL_PIXEL_FORMAT_BGRA_8888:
-    case HAL_PIXEL_FORMAT_CUSTOM_ARGB_8888:
+    case HAL_PIXEL_FORMAT_EXYNOS_ARGB_8888:
         return AX_BGR;
 
     case HAL_PIXEL_FORMAT_RGBA_8888:
     case HAL_PIXEL_FORMAT_RGBX_8888:
     case HAL_PIXEL_FORMAT_RGB_888:
     case HAL_PIXEL_FORMAT_RGB_565:
-    case HAL_PIXEL_FORMAT_RGBA_5551:
-    case HAL_PIXEL_FORMAT_RGBA_4444:
         return RGB_AX;
 
     case HAL_PIXEL_FORMAT_YCbCr_422_I:
         return P1_Y1CBY0CR;
 
-    case HAL_PIXEL_FORMAT_YCbCr_420_SP:
+    case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
         return P2_CBCR;
 
     default:
@@ -150,7 +146,7 @@ size_t hal_2_g2d_bpp(unsigned int hal_format)
 {
     switch (hal_format) {
         case HAL_PIXEL_FORMAT_BGRA_8888:
-        case HAL_PIXEL_FORMAT_CUSTOM_ARGB_8888:
+        case HAL_PIXEL_FORMAT_EXYNOS_ARGB_8888:
         case HAL_PIXEL_FORMAT_RGBA_8888:
         case HAL_PIXEL_FORMAT_RGBX_8888:
             return 32;
@@ -159,12 +155,10 @@ size_t hal_2_g2d_bpp(unsigned int hal_format)
             return 24;
 
         case HAL_PIXEL_FORMAT_RGB_565:
-        case HAL_PIXEL_FORMAT_RGBA_5551:
-        case HAL_PIXEL_FORMAT_RGBA_4444:
             return 16;
 
         case HAL_PIXEL_FORMAT_YCbCr_422_I:
-        case HAL_PIXEL_FORMAT_YCbCr_420_SP:
+        case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
             return 8;
 
         default:

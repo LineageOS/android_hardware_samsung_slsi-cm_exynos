@@ -2,6 +2,29 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
+LOCAL_SRC_FILES := \
+	csc_helper.c
+
+LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)
+
+LOCAL_C_INCLUDES := \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
+	system/core/include \
+	hardware/samsung_slsi-cm/openmax/include/exynos \
+	hardware/samsung_slsi-cm/openmax/include/khronos \
+	$(LOCAL_PATH)/../include
+
+LOCAL_ADDITIONAL_DEPENDENCIES := \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+
+LOCAL_MODULE := libcsc_helper
+LOCAL_MODULE_TAGS := optional
+LOCAL_STATIC_LIBRARIES := liblog
+
+include $(BUILD_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := \
@@ -25,6 +48,7 @@ LOCAL_MODULE := libcsc
 LOCAL_ARM_MODE := arm
 
 LOCAL_STATIC_LIBRARIES := libswconverter
+LOCAL_WHOLE_STATIC_LIBRARIES := libcsc_helper
 LOCAL_SHARED_LIBRARIES := liblog libexynosutils
 
 LOCAL_CFLAGS += -DUSE_SAMSUNG_COLORFORMAT
