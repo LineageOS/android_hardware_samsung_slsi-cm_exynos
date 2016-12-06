@@ -297,7 +297,23 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
                 crop);
         h -= crop;
     }
-
+#ifdef BOARD_USES_IDMA_G1
+    cfg.state = cfg.DECON_WIN_STATE_BUFFER;
+    cfg.fd_idma[0] = handle->fd;
+    cfg.fd_idma[1] = -1; //FIXME
+    cfg.fd_idma[2] = -1; //FIXME
+    cfg.idma_type = IDMA_G1;
+    cfg.src = {0, 0, 1440, 2560, 1440, 2560};
+    cfg.dst = {0, 0, 1440, 2560, 1440, 2560};
+    cfg.format = halFormatToSocFormat(handle->format);
+    cfg.blending = DECON_BLENDING_NONE;
+    cfg.fence_fd = fence_fd;
+    cfg.plane_alpha = 255;
+    if (planeAlpha && (planeAlpha < 255)) {
+        cfg.plane_alpha = planeAlpha;
+    }
+}
+#else
 #ifdef DECON_FB
     cfg.state = cfg.DECON_WIN_STATE_BUFFER;
     cfg.fd_idma[0] = handle->fd;
@@ -334,6 +350,7 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
         cfg.plane_alpha = planeAlpha;
     }
 }
+#endif
 
 void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, fb_win_config &cfg)
 {
