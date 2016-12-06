@@ -45,6 +45,10 @@
 #include "ExynosVideoEnc.h"
 #include "OMX_Core.h"
 
+#ifdef EXYNOS_MFC_MEDIA
+#include "linux/exynos_mfc_media.h"
+#endif
+
 /* #define LOG_NDEBUG 0 */
 #define LOG_TAG "ExynosVideoEncoder"
 #include <utils/Log.h>
