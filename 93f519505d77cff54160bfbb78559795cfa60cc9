@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f681702_52081a2b",
+        "filename": "libdisplay/Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-12-11T20:26:05Z",
+      "side": 1,
+      "message": "typo: standar -\u003e standard\n\nnitpick: put a \".\" after parameters",
+      "revId": "93f519505d77cff54160bfbb78559795cfa60cc9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f681702_f208462e",
+        "filename": "libvideocodec/Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-12-11T20:26:05Z",
+      "side": 1,
+      "message": "You can\u0027t define a board flag like this.\nWhat are you trying to do here?",
+      "revId": "93f519505d77cff54160bfbb78559795cfa60cc9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
