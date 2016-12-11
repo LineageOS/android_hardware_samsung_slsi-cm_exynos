@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f681702_a6ffafff",
+        "filename": "libdisplay/ExynosOverlayDisplay.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-12-11T20:29:06Z",
+      "side": 1,
+      "message": "All the above parameters are common, the ifdef can be reduced.",
+      "revId": "a0df5b8e734fcb1553b2801beb14752fdd247610",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f681702_86027308",
+        "filename": "libdisplay/ExynosOverlayDisplay.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-12-11T20:29:06Z",
+      "side": 1,
+      "message": "Do you really need to hardcode src/dst?\n\nthe x,y,w,h values should already match your panel specifications, it works on my Note 5.",
+      "revId": "a0df5b8e734fcb1553b2801beb14752fdd247610",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f681702_e609a72c",
+        "filename": "libdisplay/ExynosOverlayDisplay.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-12-11T20:29:06Z",
+      "side": 1,
+      "message": "The configs from format to plane_alpha are common as well, remove those from the ifdef.",
+      "revId": "a0df5b8e734fcb1553b2801beb14752fdd247610",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
