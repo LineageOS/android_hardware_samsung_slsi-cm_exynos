@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f681702_26139f5e",
+        "filename": "libvideocodec/dec/ExynosVideoDecoder.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-12-11T20:30:22Z",
+      "side": 1,
+      "message": "Rename this to \"EXYNOS_MFC_MEDIA\" and add BOARD_USES_EXYNOS_MFC_MEDIA to Android.mk (which then defines the actual CFLAG) please.",
+      "revId": "5731d403c22b2fc35cc24cfbfe762b7766ddc9d2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f681702_661d9765",
+        "filename": "libvideocodec/enc/ExynosVideoEncoder.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7155
+      },
+      "writtenOn": "2016-12-11T20:30:22Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "5731d403c22b2fc35cc24cfbfe762b7766ddc9d2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
