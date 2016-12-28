@@ -4,10 +4,6 @@
 #include "ExynosHWCUtils.h"
 #include "ExynosMPPModule.h"
 
-#ifdef G2D_COMPOSITION
-#include "ExynosG2DWrapper.h"
-#endif
-
 ExynosOverlayDisplay::ExynosOverlayDisplay(int numMPPs, struct exynos5_hwc_composer_device_1_t *pdev) :
     ExynosDisplay(numMPPs)
 {
@@ -77,11 +73,6 @@ bool ExynosOverlayDisplay::isOverlaySupported(hwc_layer_1_t &layer, size_t i)
         }
     } else {
 #ifdef USE_FB_PHY_LINEAR
-#ifdef G2D_COMPOSITION
-        if ((this->mG2dComposition) && (this->mG2dLayers < (int)(NUM_HW_WIN_FB_PHY - 1)))
-            this->mG2d.ovly_lay_idx[this->mG2dLayers++] = i;
-        else
-#endif
         return false;
 #endif
         if (!isFormatSupported(handle->format)) {
@@ -129,88 +120,11 @@ int ExynosOverlayDisplay::prepare(hwc_display_contents_1_t* contents)
     forceYuvLayersToFb(contents);
 
     do {
-#ifdef G2D_COMPOSITION
-        int tot_pixels = 0;
-        mG2dLayers= 0;
-        memset(&mG2d, 0, sizeof(mG2d));
-        mG2dComposition = 0;
-
-        if (contents->flags & HWC_GEOMETRY_CHANGED) {
-            mG2dBypassCount = 4;
-            goto SKIP_G2D_OVERLAY;
-        }
-
-        if (mG2dBypassCount > 0)
-            goto SKIP_G2D_OVERLAY;
-
-        for (size_t i = 0; i < contents->numHwLayers; i++) {
-            hwc_layer_1_t &layer = contents->hwLayers[i];
-
-            if ((layer.compositionType == HWC_FRAMEBUFFER_TARGET) ||
-                (layer.compositionType == HWC_BACKGROUND && !mForceFb))
-                continue;
-
-            if (is_transformed(layer) || is_scaled(layer) || (!layer.handle))
-                 goto SKIP_G2D_OVERLAY;
-
-            private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
-            if (!exynos5_format_is_rgb(handle->format))
-                goto SKIP_G2D_OVERLAY;
-
-            tot_pixels += WIDTH(layer.displayFrame) * HEIGHT(layer.displayFrame);
-         }
-
-        if ((tot_pixels == mXres * mYres) &&
-            (contents->numHwLayers <= NUM_HW_WINDOWS + 1))
-            mG2dComposition = 1;
-        else
-            mG2dComposition = 0;
-
-    SKIP_G2D_OVERLAY:
-#endif
-
         determineYuvOverlay(contents);
         determineSupportedOverlays(contents);
         determineBandwidthSupport(contents);
         assignWindows(contents);
     } while (mRetry);
-
-#ifdef G2D_COMPOSITION
-    int alloc_fail = 0;
-CHANGE_COMPOS_MODE:
-    if (mG2dComposition) {
-        if (mGscUsed || mFbNeeded || alloc_fail) {
-            //use SKIP_STATIC_LAYER_COMP
-            for (size_t i = 0; i < (size_t)mG2dLayers; i++) {
-                int lay_idx = mG2d.ovly_lay_idx[i];
-                hwc_layer_1_t &layer = contents->hwLayers[lay_idx];
-                layer.compositionType = HWC_FRAMEBUFFER;
-                mFbNeeded = true;
-                for (size_t j = 0; j < NUM_HW_WIN_FB_PHY; j++) {
-                    if (mPostData.overlay_map[j] == lay_idx) {
-                        mPostData.overlay_map[j] = -1;
-                        break;
-                    }
-                }
-            }
-            if (mFbNeeded)
-                mFirstFb = min(mFirstFb, (size_t)mG2d.ovly_lay_idx[0]);
-            mG2dLayers= 0;
-            mG2dComposition = 0;
-        }
-    }
-
-    if (mG2dComposition) {
-        alloc_fail = exynos5_g2d_buf_alloc(mHwc, contents);
-        if (alloc_fail)
-            goto CHANGE_COMPOS_MODE;
-    }
-
-    if (contents->flags & HWC_GEOMETRY_CHANGED) {
-        for (int i = 0; i < (int)NUM_HW_WIN_FB_PHY; i++)
-            mLastG2dLayerHandle[i] = 0;
-    }
-#endif
 
     if (mPopupPlayYuvContents)
         mVirtualOverlayFlag = 0;
@@ -375,10 +289,6 @@ int ExynosOverlayDisplay::postFrame(hwc_display_contents_1_t* contents)
     int win_map = 0;
     int tot_ovly_wins = 0;
 
-#ifdef G2D_COMPOSITION
-    int num_g2d_overlayed = 0;
-#endif
-
     memset(config, 0, sizeof(win_data.config));
     for (size_t i = 0; i < NUM_HW_WINDOWS; i++)
         config[i].fence_fd = -1;
@@ -402,21 +312,6 @@ int ExynosOverlayDisplay::postFrame(hwc_display_contents_1_t* contents)
                     pdata->gsc_map[i].mode == exynos5_gsc_map_t::GSC_LOCAL) {
                 if (postGscOtf(layer, config, win_map, i) < 0)
                     continue;
-#ifdef G2D_COMPOSITION
-            } else if (this->mG2dComposition && (num_g2d_overlayed < this->mG2dLayers)){
-                waitForRenderFinish(&layer.handle, 1);
-                private_handle_t dstHandle(*(private_handle_t::dynamicCast(layer.handle)));
-                hwc_frect_t sourceCrop = {0, 0, WIDTH(layer.displayFrame), HEIGHT(layer.displayFrame)};
-                int fence = exynos5_config_g2d(mHwc, layer, &dstHandle, config[win_map], num_g2d_overlayed, i);
-                if (fence < 0) {
-                    ALOGE("config_g2d failed for layer %u", i);
-                    continue;
-                }
-                configureHandle(&dstHandle, sourceCrop, layer.displayFrame,
-                        layer.blending, layer.planeAlpha, fence, *config);
-                num_g2d_overlayed++;
-                this->mG2d.win_used[i] = num_g2d_overlayed;
-#endif
             } else {
                 waitForRenderFinish(&layer.handle, 1);
                 configureOverlay(&layer, config[win_map]);
@@ -452,13 +347,6 @@ int ExynosOverlayDisplay::postFrame(hwc_display_contents_1_t* contents)
     if (!mGscLayers || this->mOtfMode == OTF_TO_M2M) {
         cleanupGscs();
     }
-
-#ifdef G2D_COMPOSITION
-    if (!this->mG2dComposition)
-        exynos5_cleanup_g2d(mHwc, 0);
-
-    this->mG2dBypassCount = max( this->mG2dBypassCount-1, 0);
-#endif
 
     memcpy(this->mLastConfig, &win_data.config, sizeof(win_data.config));
     memcpy(this->mLastGscMap, pdata->gsc_map, sizeof(pdata->gsc_map));
@@ -541,12 +429,6 @@ int ExynosOverlayDisplay::set(hwc_display_contents_1_t* contents)
                 if (dup_fd >= 0)
                     close(dup_fd);
                 continue;
-#ifdef G2D_COMPOSITION
-            } else if (this->mG2dComposition && this->mG2d.win_used[i]) {
-                int idx = this->mG2d.win_used[i] - 1;
-                this->mWinBufFence[idx][this->mG2dCurrentBuffer[idx]] = dup_fd;
-                this->mG2dCurrentBuffer[idx] =  (this->mG2dCurrentBuffer[idx] + 1) % NUM_GSC_DST_BUFS;
-#endif
             } else {
                 layer.releaseFenceFd = dup_fd;
             }
@@ -769,9 +651,6 @@ void ExynosOverlayDisplay::determineYuvOverlay(hwc_display_contents_1_t *content
 
 #ifdef USE_FB_PHY_LINEAR
     if ((!mHasDrmSurface) &&
-#ifdef G2D_COMPOSITION
-            (mG2dBypassCount > 0) &&
-#endif
             (contents->flags & HWC_GEOMETRY_CHANGED))
         mForceFb = true;
 #endif
@@ -893,10 +772,6 @@ void ExynosOverlayDisplay::determineBandwidthSupport(hwc_display_contents_1_t *c
             win_idx = (win_idx == mFirstFb) ? (win_idx + 1) : win_idx;
 #ifdef USE_FB_PHY_LINEAR
             windows_left = 1;
-#ifdef G2D_COMPOSITION
-            if (this->mG2dComposition)
-            windows_left = NUM_HW_WIN_FB_PHY - 1;
-#endif
 #else
             windows_left = NUM_HW_WINDOWS - 1;
 #endif
@@ -905,10 +780,6 @@ void ExynosOverlayDisplay::determineBandwidthSupport(hwc_display_contents_1_t *c
         else {
 #ifdef USE_FB_PHY_LINEAR
             windows_left = 1;
-#ifdef G2D_COMPOSITION
-            if (this->mG2dComposition)
-                windows_left = NUM_HW_WIN_FB_PHY;
-#endif
 #else
             windows_left = NUM_HW_WINDOWS;
 #endif

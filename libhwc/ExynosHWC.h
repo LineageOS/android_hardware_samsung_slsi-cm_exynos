@@ -63,10 +63,6 @@
 #ifdef USE_FB_PHY_LINEAR
 const size_t NUM_HW_WIN_FB_PHY = 5;
 #undef DUAL_VIDEO_OVERLAY_SUPPORT
-#define G2D_COMPOSITION
-#ifdef G2D_COMPOSITION
-#define USE_FIMG2D_API
-#endif
 #endif
 
 #if defined(DUAL_VIDEO_OVERLAY_SUPPORT)
@@ -212,17 +208,6 @@ struct hwc_ctrl_t {
     int     skip_static_layer_mode;
     int     dma_bw_balance_mode;
 };
-
-#if defined(G2D_COMPOSITION)
-#include "FimgApi.h"
-#endif
-
-#ifdef G2D_COMPOSITION
-struct exynos5_g2d_data_t {
-     int    ovly_lay_idx[NUM_HW_WIN_FB_PHY];
-     int    win_used[NUM_HW_WINDOWS];
-};
-#endif
 
 class ExynosPrimaryDisplay;
 class ExynosExternalDisplay;

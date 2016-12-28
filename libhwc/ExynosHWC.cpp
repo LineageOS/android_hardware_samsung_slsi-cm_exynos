@@ -1005,9 +1005,6 @@ int exynos5_open(const struct hw_module_t *module, const char *name,
         goto err_vsync;
     }
 
-#ifdef G2D_COMPOSITION
-    dev->primaryDisplay->num_of_allocated_lay = 0;
-#endif
     dev->update_stat_thread_flag = true;
     ret = pthread_create(&dev->update_stat_thread, NULL, hwc_update_stat_thread, dev);
     if (ret) {
@@ -1056,17 +1053,6 @@ int exynos5_close(hw_device_t *device)
     close(dev->vsync_fd);
 
 #ifdef USE_FB_PHY_LINEAR
-#ifdef G2D_COMPOSITION
-    for (int i = 0; i < NUM_HW_WIN_FB_PHY; i++) {
-        for (int j = 0; j < NUM_GSC_DST_BUFS; j++) {
-            if (dev->win_buf_vir_addr[i][j]) {
-                ion_unmap((void *)dev->win_buf_vir_addr[i][j], dev->win_buf_map_size[i]);
-                dev->win_buf_vir_addr[i][j] = 0;
-            }
-        }
-    }
-#endif
-
     for (int i = 0; i < NUM_HW_WIN_FB_PHY; i++) {
         for (int j = 0; j < NUM_GSC_DST_BUFS; j++) {
             if (dev->win_buf[i][j]) {

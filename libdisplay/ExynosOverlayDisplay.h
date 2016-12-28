@@ -36,19 +36,6 @@ class ExynosOverlayDisplay : public ExynosDisplay {
 
 #ifdef USE_FB_PHY_LINEAR
         buffer_handle_t          mWinBuf[NUM_HW_WINDOWS][NUM_GSC_DST_BUFS];
-#ifdef G2D_COMPOSITION
-        int                      mG2dComposition;
-        exynos5_g2d_data_t       mG2d;
-        int                      mG2dLayers;
-        int                      mAllocatedLayers;
-        uint32_t                 mWinBufVirtualAddress[NUM_HW_WINDOWS][NUM_GSC_DST_BUFS];
-        int                      mWinBufFence[NUM_HW_WINDOWS][NUM_GSC_DST_BUFS];
-        int                      mG2dCurrentBuffer[NUM_HW_WINDOWS];
-        uint32_t	             mLastG2dLayerHandle[NUM_HW_WINDOWS];
-        uint32_t                 mWinBufMapSize[NUM_HW_WINDOWS];
-        int                      mG2dMemoryAllocated;
-        int                      mG2dBypassCount;
-#endif
 #endif
 
         fb_win_config mLastConfig[NUM_HW_WINDOWS];
