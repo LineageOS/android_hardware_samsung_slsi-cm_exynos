@@ -1052,17 +1052,6 @@ int exynos5_close(hw_device_t *device)
     gralloc_close(dev->primaryDisplay->mAllocDevice);
     close(dev->vsync_fd);
 
-#ifdef USE_FB_PHY_LINEAR
-    for (int i = 0; i < NUM_HW_WIN_FB_PHY; i++) {
-        for (int j = 0; j < NUM_GSC_DST_BUFS; j++) {
-            if (dev->win_buf[i][j]) {
-                dev->primaryDisplay->mAllocDevice->free(dev->primaryDisplay->mAllocDevice, dev->win_buf[i][j]);
-                dev->win_buf[i][j] = NULL;
-            }
-        }
-    }
-#endif
-
     return 0;
 }
 

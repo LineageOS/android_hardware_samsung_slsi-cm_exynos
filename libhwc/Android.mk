@@ -69,12 +69,6 @@ ifeq ($(BOARD_USES_WFD_SERVICE),true)
 	LOCAL_C_INCLUDES += $(TOP)/frameworks/av/include/media
 endif
 
-ifeq ($(BOARD_USES_FB_PHY_LINEAR),true)
-	LOCAL_CFLAGS += -DUSE_FB_PHY_LINEAR
-	LOCAL_SHARED_LIBRARIES += libfimg
-	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi-cm/exynos/libfimg4x
-endif
-
 ifeq ($(BOARD_HDMI_INCAPABLE), true)
 	LOCAL_CFLAGS += -DHDMI_INCAPABLE
 	LOCAL_C_INCLUDES += $(LOCAL_PATH)/../libhdmi_dummy

@@ -60,11 +60,6 @@
 #include "ExynosRect.h"
 #include <linux/videodev2.h>
 
-#ifdef USE_FB_PHY_LINEAR
-const size_t NUM_HW_WIN_FB_PHY = 5;
-#undef DUAL_VIDEO_OVERLAY_SUPPORT
-#endif
-
 #if defined(DUAL_VIDEO_OVERLAY_SUPPORT)
 #define MAX_VIDEO_LAYERS 2
 #else

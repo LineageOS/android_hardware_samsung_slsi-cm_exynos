@@ -57,12 +57,6 @@ bool ExynosOverlayDisplay::isOverlaySupported(hwc_layer_1_t &layer, size_t i)
         return false;
     }
 
-#ifdef USE_FB_PHY_LINEAR
-    if (layer.displayFrame.left < 0 || layer.displayFrame.top < 0 ||
-        layer.displayFrame.right > this->mXres || layer.displayFrame.bottom > this->mYres)
-        return false;
-#endif
-
     if (mMPPs[mMPPIndex]->isProcessingRequired(layer, handle->format)) {
         int down_ratio = mMPPs[mMPPIndex]->getDownscaleRatio(this->mXres, this->mYres);
         /* Check whether GSC can handle using local or M2M */
@@ -72,9 +66,6 @@ bool ExynosOverlayDisplay::isOverlaySupported(hwc_layer_1_t &layer, size_t i)
             return false;
         }
     } else {
-#ifdef USE_FB_PHY_LINEAR
-        return false;
-#endif
         if (!isFormatSupported(handle->format)) {
             ALOGV("\tlayer %u: pixel format %u not supported", i, handle->format);
             return false;
@@ -648,12 +639,6 @@ void ExynosOverlayDisplay::determineYuvOverlay(hwc_display_contents_1_t *content
         }
     }
     mPopupPlayYuvContents = !!((mYuvLayers == 1) && (mForceOverlayLayerIndex > 0));
-
-#ifdef USE_FB_PHY_LINEAR
-    if ((!mHasDrmSurface) &&
-            (contents->flags & HWC_GEOMETRY_CHANGED))
-        mForceFb = true;
-#endif
 }
 
 void ExynosOverlayDisplay::determineSupportedOverlays(hwc_display_contents_1_t *contents)
@@ -770,19 +755,11 @@ void ExynosOverlayDisplay::determineBandwidthSupport(hwc_display_contents_1_t *c
             dma_ch_idx = FIMD_DMA_CH_IDX[mFirstFb];
             pixel_used[dma_ch_idx] = (uint32_t) (this->mXres * this->mYres);
             win_idx = (win_idx == mFirstFb) ? (win_idx + 1) : win_idx;
-#ifdef USE_FB_PHY_LINEAR
-            windows_left = 1;
-#else
             windows_left = NUM_HW_WINDOWS - 1;
-#endif
             rects[dma_ch_idx].push_back(fb_rect);
         }
         else {
-#ifdef USE_FB_PHY_LINEAR
-            windows_left = 1;
-#else
             windows_left = NUM_HW_WINDOWS;
-#endif
         }
 
         changed = false;

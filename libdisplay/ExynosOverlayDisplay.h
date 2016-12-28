@@ -34,10 +34,6 @@ class ExynosOverlayDisplay : public ExynosDisplay {
         exynos5_hwc_post_data_t  mPostData;
         const private_module_t   *mGrallocModule;
 
-#ifdef USE_FB_PHY_LINEAR
-        buffer_handle_t          mWinBuf[NUM_HW_WINDOWS][NUM_GSC_DST_BUFS];
-#endif
-
         fb_win_config mLastConfig[NUM_HW_WINDOWS];
         size_t                   mLastFbWindow;
         const void               *mLastHandles[NUM_HW_WINDOWS];

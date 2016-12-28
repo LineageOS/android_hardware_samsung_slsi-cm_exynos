@@ -511,17 +511,8 @@ int ExynosMPP::reallocateBuffers(private_handle_t *src_handle, exynos_mpp_img &d
     int dst_stride;
     int usage = GRALLOC_USAGE_SW_READ_NEVER |
             GRALLOC_USAGE_SW_WRITE_NEVER |
-#ifdef USE_FB_PHY_LINEAR
-            ((mIndex == FIMD_GSC_IDX) ? GRALLOC_USAGE_PHYSICALLY_LINEAR : 0) |
-#endif
             GRALLOC_USAGE_HW_COMPOSER;
 
-#ifdef USE_FB_PHY_LINEAR
-    usage |= GRALLOC_USAGE_PROTECTED;
-#ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
-    usage &= ~GRALLOC_USAGE_PRIVATE_NONSECURE;
-#endif
-#else
     if (getDrmMode(src_handle->flags) == SECURE_DRM) {
         usage |= GRALLOC_USAGE_PROTECTED;
 #ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
@@ -533,7 +524,6 @@ int ExynosMPP::reallocateBuffers(private_handle_t *src_handle, exynos_mpp_img &d
         usage |= GRALLOC_USAGE_PRIVATE_NONSECURE;
 #endif
     }
-#endif
 
     int w, h;
     {

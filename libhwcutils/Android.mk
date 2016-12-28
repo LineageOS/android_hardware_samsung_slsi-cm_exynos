@@ -43,13 +43,6 @@ ifeq ($(BOARD_HDMI_INCAPABLE), true)
 	LOCAL_CFLAGS += -DHDMI_INCAPABLE
 endif
 
-ifeq ($(BOARD_USES_FB_PHY_LINEAR),true)
-	LOCAL_CFLAGS += -DUSE_FB_PHY_LINEAR
-	LOCAL_SHARED_LIBRARIES += libfimg
-	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi-cm/exynos/libfimg4x
-	LOCAL_SRC_FILES += ExynosG2DWrapper.cpp
-endif
-
 # Exynos 5430 onwards use a decon frame buffer device, but still have the
 # old kernel APIs for calling it (S3C_FB_*).
 # Newer SoCs (Exynos 7420 onwards) make use of a new kernel API.
@@ -96,9 +89,7 @@ ifeq ($(BOARD_USES_VIRTUAL_DISPLAY), true)
 		$(TOP)/hardware/samsung_slsi-cm/exynos/libfimg4x
 	LOCAL_SHARED_LIBRARIES += libfimg libMcClient
 	LOCAL_STATIC_LIBRARIES := libsecurepath
-ifneq ($(BOARD_USES_FB_PHY_LINEAR),true)
 	LOCAL_SRC_FILES += ExynosG2DWrapper.cpp
-endif
 endif
 
 LOCAL_MODULE_TAGS := eng
