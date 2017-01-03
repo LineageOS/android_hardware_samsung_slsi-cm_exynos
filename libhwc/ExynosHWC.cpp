@@ -560,28 +560,50 @@ void *hwc_vsync_thread(void *data)
     return NULL;
 }
 
-int exynos5_blank(struct hwc_composer_device_1 *dev, int disp, int blank)
+int exynos5_setPowerMode(struct hwc_composer_device_1 *dev, int disp, int mode)
 {
     struct exynos5_hwc_composer_device_1_t *pdev =
             (struct exynos5_hwc_composer_device_1_t *)dev;
+    int fb_blank;
+    bool display_off;
+
 #ifdef SKIP_DISPLAY_BLANK_CTRL
     return 0;
 #endif
+
+    switch (mode) {
+    case HWC_POWER_MODE_OFF:
+        fb_blank = FB_BLANK_POWERDOWN;
+        break;
+    case HWC_POWER_MODE_DOZE:
+    case HWC_POWER_MODE_DOZE_SUSPEND:
+        // FIXME: As specified in Exynos framebuffer driver, this will return -EINVAL.
+        fb_blank = FB_BLANK_VSYNC_SUSPEND;
+        break;
+    case HWC_POWER_MODE_NORMAL:
+        fb_blank = FB_BLANK_UNBLANK;
+        break;
+    default:
+        ALOGE("%s: unsupported mode: %d", __func__, mode);
+        return -EINVAL;
+    }
+
+    display_off = (fb_blank == FB_BLANK_POWERDOWN);
+
     switch (disp) {
     case HWC_DISPLAY_PRIMARY: {
-        int fb_blank = blank ? FB_BLANK_POWERDOWN : FB_BLANK_UNBLANK;
-        if (pdev->primaryDisplay->mGscUsed && (fb_blank == FB_BLANK_POWERDOWN)) {
+        if (pdev->primaryDisplay->mGscUsed && display_off) {
             if (pdev->primaryDisplay->mMPPs[FIMD_GSC_IDX]->isOTF()) {
                 pdev->primaryDisplay->mMPPs[FIMD_GSC_IDX]->cleanupOTF();
             }
         }
 
         if (pthread_kill(pdev->update_stat_thread, 0) != ESRCH) { //check if the thread is alive
-           if (fb_blank == FB_BLANK_POWERDOWN) {
+           if (display_off) {
                 pdev->update_stat_thread_flag = false;
             }
         } else { // thread is not alive
-            if (fb_blank == FB_BLANK_UNBLANK) {
+            if (!display_off && (fb_blank != FB_BLANK_VSYNC_SUSPEND)) {
                 pdev->update_stat_thread_flag = true;
                 if (pthread_create(&pdev->update_stat_thread, NULL, hwc_update_stat_thread, pdev) != 0) {
                     ALOGE("%s: failed to start vsync_stat thread:", __func__);
@@ -592,10 +614,10 @@ int exynos5_blank(struct hwc_composer_device_1 *dev, int disp, int blank)
         int err = ioctl(pdev->primaryDisplay->mDisplayFd, FBIOBLANK, fb_blank);
         if (err < 0) {
             if (errno == EBUSY)
-                ALOGI("%sblank ioctl failed (display already %sblanked)",
-                        blank ? "" : "un", blank ? "" : "un");
+                ALOGI("FBIOBLANK ioctl failed (display already in blank mode: %d)",
+                        fb_blank);
             else
-                ALOGE("%sblank ioctl failed: %s", blank ? "" : "un",
+                ALOGE("FBIOBLANK ioctl failed for mode: %d", fb_blank,
                         strerror(errno));
             return -errno;
         }
@@ -604,12 +626,12 @@ int exynos5_blank(struct hwc_composer_device_1 *dev, int disp, int blank)
 
     case HWC_DISPLAY_EXTERNAL:
         if (pdev->hdmi_hpd) {
-            if (blank && !pdev->externalDisplay->mBlanked) {
+            if (display_off && !pdev->externalDisplay->mBlanked) {
                 if (pdev->externalDisplay->blank() < 0)
                     return -1;
                 pdev->externalDisplay->disable();
             }
-            pdev->externalDisplay->mBlanked = !!blank;
+            pdev->externalDisplay->mBlanked = !!display_off;
         }
         break;
 
@@ -767,6 +789,19 @@ int exynos5_getDisplayAttributes(struct hwc_composer_device_1 *dev,
     }
 
     return 0;
+}
+
+int exynos5_getActiveConfig(struct hwc_composer_device_1* dev __unused,
+        int disp __unused) {
+    // We only handle primary display here, which can never be hotpluggable.
+    return 0;
+}
+
+int exynos5_setActiveConfig(struct hwc_composer_device_1* dev __unused,
+        int disp __unused, int index) {
+    // We only handle primary display here, which can never be hotpluggable.
+    // This means we may only handle the default config (0th index).
+    return (index == 0) ? index : -EINVAL;
 }
 
 int exynos5_close(hw_device_t* device);
@@ -945,19 +980,21 @@ int exynos5_open(const struct hw_module_t *module, const char *name,
             dev->psrMode);
 
     dev->base.common.tag = HARDWARE_DEVICE_TAG;
-    dev->base.common.version = HWC_DEVICE_API_VERSION_1_3;
+    dev->base.common.version = HWC_DEVICE_API_VERSION_1_4;
     dev->base.common.module = const_cast<hw_module_t *>(module);
     dev->base.common.close = exynos5_close;
 
     dev->base.prepare = exynos5_prepare;
     dev->base.set = exynos5_set;
     dev->base.eventControl = exynos5_eventControl;
-    dev->base.blank = exynos5_blank;
+    dev->base.setPowerMode = exynos5_setPowerMode;
     dev->base.query = exynos5_query;
     dev->base.registerProcs = exynos5_registerProcs;
     dev->base.dump = exynos5_dump;
     dev->base.getDisplayConfigs = exynos5_getDisplayConfigs;
     dev->base.getDisplayAttributes = exynos5_getDisplayAttributes;
+    dev->base.getActiveConfig = exynos5_getActiveConfig;
+    dev->base.setActiveConfig = exynos5_setActiveConfig;
 
     *device = &dev->base.common;
 
