@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_f67dbfb2",
+        "filename": "libvideocodec/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 6334
+      },
+      "writtenOn": "2017-01-10T16:39:32Z",
+      "side": 1,
+      "message": "why not add the cflag to the above exynos8890 ifeq?",
+      "revId": "431921dda4cb4a26538ea967f92fe872d7a2158a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
