@@ -56,6 +56,7 @@ endif
 
 ifeq ($(TARGET_SOC), exynos8890)
 LOCAL_CFLAGS += -DSOC_EXYNOS5430
+LOCAL_CFLAGS += -DMFC_MEDIA_HEADER
 endif
 
 LOCAL_MODULE := libExynosVideoApi
