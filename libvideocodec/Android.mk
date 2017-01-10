@@ -58,6 +58,11 @@ ifeq ($(TARGET_SOC), exynos8890)
 LOCAL_CFLAGS += -DSOC_EXYNOS5430
 endif
 
+# Newer SoC (Exynos 8890) use a new kernel header.
+ifeq ($(BOARD_USES_MFC_MEDIA_HEADER), true)
+LOCAL_CFLAGS += -DMFC_MEDIA_HEADER
+endif
+
 LOCAL_MODULE := libExynosVideoApi
 LOCAL_MODULE_TAGS := optional
 LOCAL_ARM_MODE := arm

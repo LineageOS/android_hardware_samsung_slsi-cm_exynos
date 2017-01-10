@@ -20,6 +20,10 @@
 
 #include "exynos_v4l2.h"
 
+#ifdef MFC_MEDIA_HEADER
+#include <linux/exynos_mfc_media.h>
+#endif
+
 /* Fixed */
 #define VIDEO_BUFFER_MAX_PLANES 3
 #define VIDEO_BUFFER_MAX_NUM    32
