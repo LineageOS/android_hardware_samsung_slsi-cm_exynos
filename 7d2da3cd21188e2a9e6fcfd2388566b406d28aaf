@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_966d5307",
+        "filename": "libdisplay/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6334
+      },
+      "writtenOn": "2017-01-10T16:37:05Z",
+      "side": 1,
+      "message": "might be better as DECON_G1",
+      "revId": "7d2da3cd21188e2a9e6fcfd2388566b406d28aaf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
