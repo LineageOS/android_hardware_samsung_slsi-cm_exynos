@@ -208,6 +208,11 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.fd_idma[0] = handle->fd;
     cfg.fd_idma[1] = -1; //FIXME
     cfg.fd_idma[2] = -1; //FIXME
+#ifdef DECON_8890
+    cfg.idma_type = IDMA_G1;
+    cfg.src = {0, 0, 1440, 2560, 1440, 2560};
+    cfg.dst = {0, 0, 1440, 2560, 1440, 2560};
+#else
     cfg.idma_type = IDMA_G0;
     cfg.dst.x = x;
     cfg.dst.y = y;
@@ -221,6 +226,7 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.dst.h = h;
     cfg.src.f_w = w;
     cfg.src.f_h = h;
+#endif
 #else
     cfg.state = cfg.S3C_FB_WIN_STATE_BUFFER;
     cfg.fd = handle->fd;
@@ -232,7 +238,11 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.stride = handle->stride * bpp / 8;
 #endif
     cfg.format = halFormatToSocFormat(handle->format);
+#ifdef DECON_8890
+    cfg.blending = DECON_BLENDING_NONE;
+#else
     cfg.blending = halBlendingToSocBlending(blending);
+#endif
     cfg.fence_fd = fence_fd;
     cfg.plane_alpha = 255;
     if (planeAlpha && (planeAlpha < 255)) {

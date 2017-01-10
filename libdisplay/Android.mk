@@ -53,6 +53,12 @@ ifneq ($(filter exynos7420 exynos7580 exynos8890, $(TARGET_SOC)),)
 	LOCAL_CFLAGS += -DDECON_FB
 endif
 
+# Exynos 8890 Uses IDMA_G1 instead of the standard IDMA_G0
+# and needs forced parameters.
+ifneq ($(filter exynos8890, $(TARGET_SOC)),)
+	LOCAL_CFLAGS += -DDECON_8890
+endif
+
 LOCAL_CFLAGS += -DLOG_TAG=\"display\"
 LOCAL_C_INCLUDES := \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
