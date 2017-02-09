@@ -33,7 +33,7 @@
 
 #include "exynos_blender.h"
 #include "exynos_blender_obj.h"
-#include "videodev2_exynos_media.h"
+#include <linux/videodev2_exynos_media.h>
 #include "exynos_v4l2.h"
 #include "libg2d_obj.h"
 
