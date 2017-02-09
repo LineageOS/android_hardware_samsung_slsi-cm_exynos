@@ -29,7 +29,7 @@
 #ifndef __EXYNOS_BLENDER_H__
 #define __EXYNOS_BLENDER_H__
 
-#include "videodev2.h"
+#include <linux/videodev2.h>
 
 #define BL_MAX_PLANES   3
 
