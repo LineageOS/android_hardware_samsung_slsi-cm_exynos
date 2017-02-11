@@ -293,7 +293,7 @@ extern "C" struct FimgApi * createFimgApi()
     return FimgV4x::CreateInstance();
 }
 
-extern "C" void destroyFimgApi(FimgApi * ptrFimgApi)
+extern "C" void destroyFimgApi(FimgApi * ptrFimgApi __unused)
 {
     // Dont' call DestroyInstance.
 }

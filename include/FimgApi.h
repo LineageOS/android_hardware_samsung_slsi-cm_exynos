@@ -120,7 +120,7 @@ private :
 
 protected :
     FimgApi();
-    FimgApi(const FimgApi& rhs) {}
+    FimgApi(const FimgApi& rhs __unused) {}
     virtual ~FimgApi();
 
 public:
