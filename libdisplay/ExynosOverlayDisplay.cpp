@@ -229,6 +229,15 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.dst.h = h;
     cfg.src.f_w = w;
     cfg.src.f_h = h;
+#if 1
+    // These should be irrelevant.
+    cfg.left = x;
+    cfg.top = y;
+    cfg.right = w;
+    cfg.bottom = h;
+    // This sets the default panel resolution
+    cfg.enableDSU = DECON_DSU_RES_DEFAULT;
+#endif
 #endif
 #else
     cfg.state = cfg.S3C_FB_WIN_STATE_BUFFER;
