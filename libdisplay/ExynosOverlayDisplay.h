@@ -74,7 +74,8 @@ class ExynosOverlayDisplay : public ExynosDisplay {
         void configureOtfWindow(hwc_rect_t &displayFrame,
                 int32_t blending, int32_t planeAlpha, int format, fb_win_config &cfg);
         void configureHandle(private_handle_t *handle, hwc_frect_t &sourceCrop,
-                hwc_rect_t &displayFrame, int32_t blending, int32_t planeAlpha, int fence_fd, fb_win_config &cfg);
+                hwc_rect_t &displayFrame, int32_t blending, int32_t planeAlpha, int fence_fd, fb_win_config &cfg,
+                int32_t win_idx);
         int clearDisplay();
         void skipStaticLayers(hwc_display_contents_1_t *contents);
         void determineSupportedOverlays(hwc_display_contents_1_t *contents);
@@ -88,7 +89,7 @@ class ExynosOverlayDisplay : public ExynosDisplay {
 
         virtual int postGscM2M(hwc_layer_1_t &layer, fb_win_config *config, int win_map, int index);
         virtual void forceYuvLayersToFb(hwc_display_contents_1_t *contents);
-        virtual void configureOverlay(hwc_layer_1_t *layer, fb_win_config &cfg);
+        virtual void configureOverlay(hwc_layer_1_t *layer, fb_win_config &cfg, int32_t win_idx);
         virtual bool isOverlaySupported(hwc_layer_1_t &layer, size_t i);
         virtual int postFrame(hwc_display_contents_1_t *contents);
         virtual int waitForRenderFinish(buffer_handle_t *handle, int buffers);

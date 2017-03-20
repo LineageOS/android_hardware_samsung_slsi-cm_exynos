@@ -159,7 +159,8 @@ void ExynosOverlayDisplay::configureOtfWindow(hwc_rect_t &displayFrame,
 
 void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
         hwc_frect_t &sourceCrop, hwc_rect_t &displayFrame,
-        int32_t blending, int32_t planeAlpha, int fence_fd, fb_win_config &cfg)
+        int32_t blending, int32_t planeAlpha, int fence_fd, fb_win_config &cfg,
+        int32_t win_idx)
 {
     uint32_t x, y;
     uint32_t w = WIDTH(displayFrame);
@@ -208,11 +209,13 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.fd_idma[0] = handle->fd;
     cfg.fd_idma[1] = -1; //FIXME
     cfg.fd_idma[2] = -1; //FIXME
-#ifdef DECON_IDMA_G1
-    cfg.idma_type = IDMA_G1;
-#else
-    cfg.idma_type = IDMA_G0;
-#endif
+    cfg.idma_type = getIdmaType(win_idx);
+    if (isVppType(cfg.idma_type)) {
+        // TODO: Configure vpp_parm
+        // cfg.vpp_parm.rot = ?
+        // check MPP isRotated() val?
+        ALOGE("%s: overlay is VPP type, but we cannot handle this!", __func__);
+    }
 #ifdef DECON_8890
     cfg.src = {0, 0, 1440, 2560, 1440, 2560};
     cfg.dst = {0, 0, 1440, 2560, 1440, 2560};
@@ -255,7 +258,8 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     }
 }
 
-void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, fb_win_config &cfg)
+void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, fb_win_config &cfg,
+        int32_t win_idx)
 {
     if (layer->compositionType == HWC_BACKGROUND) {
         hwc_color_t color = layer->backgroundColor;
@@ -287,7 +291,8 @@ void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, fb_win_config 
     }
     private_handle_t *handle = private_handle_t::dynamicCast(layer->handle);
     configureHandle(handle, layer->sourceCropf, layer->displayFrame,
-            layer->blending, layer->planeAlpha, layer->acquireFenceFd, cfg);
+            layer->blending, layer->planeAlpha, layer->acquireFenceFd, cfg,
+            win_idx);
 }
 
 
@@ -324,7 +329,7 @@ int ExynosOverlayDisplay::postFrame(hwc_display_contents_1_t* contents)
                     continue;
             } else {
                 waitForRenderFinish(&layer.handle, 1);
-                configureOverlay(&layer, config[win_map]);
+                configureOverlay(&layer, config[win_map], i);
             }
         }
         if (i == 0 && config[i].blending != BLENDING_NONE) {
@@ -1044,7 +1049,7 @@ int ExynosOverlayDisplay::postGscM2M(hwc_layer_1_t &layer, fb_win_config *config
     int fence = mMPPs[gsc_idx]->mDstConfig.releaseFenceFd;
     configureHandle(dst_handle, sourceCrop,
             layer.displayFrame, layer.blending, layer.planeAlpha,  fence,
-            config[win_map]);
+            config[win_map], index);
     return 0;
 }
 
