@@ -259,6 +259,10 @@ void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, fb_win_config 
         hwc_color_t color = layer->backgroundColor;
 #ifdef DECON_FB
         cfg.state = cfg.DECON_WIN_STATE_COLOR;
+        cfg.src.x = 0;
+        cfg.src.y = 0;
+        cfg.src.w = this->mXres;
+        cfg.src.h = this->mYres;
         cfg.dst.x = 0;
         cfg.dst.y = 0;
         cfg.dst.w = this->mXres;
