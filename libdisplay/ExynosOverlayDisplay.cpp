@@ -221,13 +221,15 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.dst.y = y;
     cfg.dst.w = w;
     cfg.dst.h = h;
-    cfg.dst.f_w = w;
+    // virtual x/y resolution
+    cfg.dst.f_w = handle->stride;
     cfg.dst.f_h = h;
     cfg.src.x = x;
     cfg.src.y = y;
     cfg.src.w = w;
     cfg.src.h = h;
-    cfg.src.f_w = w;
+    // Framebuffer linelength
+    cfg.src.f_w = handle->stride;
     cfg.src.f_h = h;
 #endif
 #else
