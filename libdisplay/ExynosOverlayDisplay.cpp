@@ -225,8 +225,8 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.dst.f_h = h;
     cfg.src.x = x;
     cfg.src.y = y;
-    cfg.dst.w = w;
-    cfg.dst.h = h;
+    cfg.src.w = w;
+    cfg.src.h = h;
     cfg.src.f_w = w;
     cfg.src.f_h = h;
 #endif
