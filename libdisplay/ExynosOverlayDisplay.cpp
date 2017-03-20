@@ -961,6 +961,7 @@ bool ExynosOverlayDisplay::assignGscLayer(hwc_layer_1_t &layer, int index, int n
     size_t gscIndex = 0;
     int down_ratio = mMPPs[0]->getDownscaleRatio(this->mXres, this->mYres);
     bool ret = true;
+#ifndef DECON_FB
     if (nextWindow == 0 &&
             mMPPs[0]->isProcessingSupported(layer, handle->format, true, down_ratio)) {
         gscIndex = mCurrentGscIndex;
@@ -972,6 +973,7 @@ bool ExynosOverlayDisplay::assignGscLayer(hwc_layer_1_t &layer, int index, int n
             mOtfMode = OTF_RUNNING;
         mMPPs[0]->mNeedReqbufs = false;
     } else {
+#endif
         gscIndex = getMPPForUHD(layer);
         if (gscIndex == FIMD_GSC_IDX) {
             gscIndex = mCurrentGscIndex;
@@ -995,7 +997,9 @@ bool ExynosOverlayDisplay::assignGscLayer(hwc_layer_1_t &layer, int index, int n
             mMPPs[FIMD_GSC_SEC_IDX]->setMode(exynos5_gsc_map_t::GSC_M2M);
             mPostData.gsc_map[nextWindow].idx = FIMD_GSC_SEC_IDX;
         }
+#ifndef DECON_FB
     }
+#endif
     ALOGV("\tusing gscaler %u",
             AVAILABLE_GSC_UNITS[gscIndex]);
     return ret;
