@@ -56,7 +56,6 @@ endif
 # Exynos 8890 Uses IDMA_G1 instead of the standard IDMA_G0
 # and needs forced parameters.
 ifneq ($(filter exynos8890, $(TARGET_SOC)),)
-	LOCAL_CFLAGS += -DDECON_IDMA_G1
 	LOCAL_CFLAGS += -DDECON_8890
 endif
 
