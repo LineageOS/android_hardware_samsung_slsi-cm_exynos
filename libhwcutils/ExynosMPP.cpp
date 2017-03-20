@@ -128,6 +128,12 @@ bool ExynosMPP::isFormatSupportedByGscOtf(int format)
 bool ExynosMPP::isProcessingSupported(hwc_layer_1_t &layer, int format,
         bool local_path, int loc_out_downscale)
 {
+#ifdef DECON_FB
+    ALOGE("local_path output not supported on Exynos7 onwards");
+    if (local_path)
+        return false;
+#endif
+
     if (local_path && loc_out_downscale == 0)
         return false;
 
