@@ -168,7 +168,7 @@ int exynos_v4l2_open_devname(const char *devname, int oflag, ...)
         if (fd > 0)
             ALOGI("open video device %s", filename);
         else
-            ALOGE("failed to open video device %s", filename);
+            ALOGE("failed to open video device %s (%s)", filename, strerror(errno));
     } else {
         ALOGE("no video device found");
     }
