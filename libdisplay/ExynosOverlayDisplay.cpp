@@ -58,6 +58,10 @@ bool ExynosOverlayDisplay::isOverlaySupported(hwc_layer_1_t &layer, size_t i)
     }
 
     if (mMPPs[mMPPIndex]->isProcessingRequired(layer, handle->format)) {
+#ifdef DECON_FB
+        ALOGV("\tlayer %u: gscaler required but not supported", i);
+        return false;
+#endif
         int down_ratio = mMPPs[mMPPIndex]->getDownscaleRatio(this->mXres, this->mYres);
         /* Check whether GSC can handle using local or M2M */
         if (!((mMPPs[mMPPIndex]->isProcessingSupported(layer, handle->format, false, down_ratio)) ||
@@ -824,10 +828,16 @@ void ExynosOverlayDisplay::determineBandwidthSupport(hwc_display_contents_1_t *c
 
             bool gsc_required = mMPPs[gsc_index]->isProcessingRequired(layer, handle->format);
             if (gsc_required) {
+#ifdef DECON_FB
+                ALOGV("\tlayer %u: gscaler required but not supported", i);
+                can_compose = false;
+                gsc_required = false;
+#else
                 if (mGscLayers >= MAX_VIDEO_LAYERS)
                     can_compose = can_compose && !mGscUsed;
                 if (mHwc->hwc_ctrl.num_of_video_ovly <= mGscLayers)
                     can_compose = false;
+#endif
             }
 
             // hwc_rect_t right and bottom values are normally exclusive;
@@ -934,6 +944,10 @@ void ExynosOverlayDisplay::assignWindows(hwc_display_contents_1_t *contents)
                 private_handle_t *handle =
                         private_handle_t::dynamicCast(layer.handle);
                 if (mMPPs[0]->isProcessingRequired(layer, handle->format)) {
+#ifdef DECON_FB
+                	ALOGV("\tlayer %u: gscaler required but not supported", i);
+                	continue;
+#endif
                     if (mHwc->hdmi_hpd && (getDrmMode(handle->flags) == SECURE_DRM)
                         && (!mHwc->video_playback_status)) {
                         /*
