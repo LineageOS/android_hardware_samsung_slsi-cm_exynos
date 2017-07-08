@@ -246,11 +246,7 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.stride = handle->stride * bpp / 8;
 #endif
     cfg.format = halFormatToSocFormat(handle->format);
-#ifdef DECON_8890
-    cfg.blending = DECON_BLENDING_NONE;
-#else
     cfg.blending = halBlendingToSocBlending(blending);
-#endif
     cfg.fence_fd = fence_fd;
     cfg.plane_alpha = 255;
     if (planeAlpha && (planeAlpha < 255)) {
