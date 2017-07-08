@@ -652,11 +652,13 @@ void ExynosOverlayDisplay::determineYuvOverlay(hwc_display_contents_1_t *content
                 mForceOverlayLayerIndex = i;
             }
 
+#ifndef DECON_FB
             /* check yuv surface */
             if (mMPPs[0]->formatRequiresGsc(handle->format) && isOverlaySupported(contents->hwLayers[i], i)) {
                 this->mYuvLayers++;
                 mForceOverlayLayerIndex = i;
             }
+#endif
 
             handleOffscreenRendering(layer);
         }
