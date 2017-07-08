@@ -1,3 +1,6 @@
+#define LOG_NDEBUG 0
+#define LOG_TAG "libdisplay_ARG"
+
 #include <cutils/properties.h>
 
 #include "ExynosOverlayDisplay.h"
