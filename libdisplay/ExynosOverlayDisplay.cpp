@@ -216,10 +216,6 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
         // check MPP isRotated() val?
         ALOGE("%s: overlay is VPP type, but we cannot handle this!", __func__);
     }
-#ifdef DECON_8890
-    cfg.src = {0, 0, 1440, 2560, 1440, 2560};
-    cfg.dst = {0, 0, 1440, 2560, 1440, 2560};
-#else
     cfg.dst.x = x;
     cfg.dst.y = y;
     cfg.dst.w = w;
@@ -234,7 +230,6 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     // Framebuffer linelength
     cfg.src.f_w = handle->stride;
     cfg.src.f_h = h;
-#endif
 #else
     cfg.state = cfg.S3C_FB_WIN_STATE_BUFFER;
     cfg.fd = handle->fd;
