@@ -220,16 +220,14 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
     cfg.dst.y = y;
     cfg.dst.w = w;
     cfg.dst.h = h;
-    // virtual x/y resolution
     cfg.dst.f_w = handle->stride;
-    cfg.dst.f_h = h;
+    cfg.dst.f_h = handle->vstride;
     cfg.src.x = x;
     cfg.src.y = y;
     cfg.src.w = w;
     cfg.src.h = h;
-    // Framebuffer linelength
     cfg.src.f_w = handle->stride;
-    cfg.src.f_h = h;
+    cfg.src.f_h = handle->vstride;
 #else
     cfg.state = cfg.S3C_FB_WIN_STATE_BUFFER;
     cfg.fd = handle->fd;
