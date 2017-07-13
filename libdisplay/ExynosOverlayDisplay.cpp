@@ -258,10 +258,14 @@ void ExynosOverlayDisplay::configureOverlay(hwc_layer_1_t *layer, fb_win_config 
         cfg.src.y = 0;
         cfg.src.w = this->mXres;
         cfg.src.h = this->mYres;
+        cfg.src.f_w = this->mXres;
+        cfg.src.f_h = this->mYres;
         cfg.dst.x = 0;
         cfg.dst.y = 0;
         cfg.dst.w = this->mXres;
         cfg.dst.h = this->mYres;
+        cfg.dst.f_w = this->mXres;
+        cfg.dst.f_h = this->mYres;
 #else
         cfg.state = cfg.S3C_FB_WIN_STATE_COLOR;
         cfg.x = 0;
