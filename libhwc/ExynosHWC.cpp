@@ -656,13 +656,21 @@ void exynos5_dump(hwc_composer_device_1* dev, char *buff, int buff_len)
     result.appendFormat("  hdmi_enabled=%u\n", pdev->externalDisplay->mEnabled);
     if (pdev->externalDisplay->mEnabled)
         result.appendFormat("    w=%u, h=%u\n", pdev->externalDisplay->mXres, pdev->externalDisplay->mYres);
+#ifdef DECON_FB
+    result.append(
+            "   type   |  handle  |  color   | blend | format |   position    |     size      | IDMA \n"
+            "----------+----------|----------+-------+--------+---------------+----------------------\n");
+    //        8_______ | 8_______ | 8_______ | 5____ | 6_____ | [5____,5____] | [5____,5____] | 3__  \n"
+#else
     result.append(
             "   type   |  handle  |  color   | blend | format |   position    |     size      | gsc \n"
             "----------+----------|----------+-------+--------+---------------+---------------------\n");
     //        8_______ | 8_______ | 8_______ | 5____ | 6_____ | [5____,5____] | [5____,5____] | 3__ \n"
+#endif
 
     for (size_t i = 0; i < NUM_HW_WINDOWS; i++) {
         fb_win_config &config = pdev->primaryDisplay->mLastConfig[i];
+        intptr_t layer_handle = intptr_t(pdev->primaryDisplay->mLastHandles[i]);
         if ((config.state == WIN_STATE_DISABLED) &&
             (pdev->primaryDisplay->mLastGscMap[i].mode == exynos5_gsc_map_t::GSC_NONE)){
             result.appendFormat(" %8s | %8s | %8s | %5s | %6s | %13s | %13s",
@@ -675,7 +683,7 @@ void exynos5_dump(hwc_composer_device_1* dev, char *buff, int buff_len)
             else
                 result.appendFormat(" %8s | %8x | %8s | %5x | %6x",
                         pdev->primaryDisplay->mLastFbWindow == i ? "FB" : "OVERLAY",
-                        intptr_t(pdev->primaryDisplay->mLastHandles[i]),
+                        layer_handle,
                         "-", config.blending, config.format);
 
             result.appendFormat(" | [%5d,%5d] | [%5u,%5u]",
@@ -688,6 +696,9 @@ void exynos5_dump(hwc_composer_device_1* dev, char *buff, int buff_len)
                     config.w, config.h);
 #endif
         }
+#ifdef DECON_FB
+        result.appendFormat(" | %3d", layer_handle ? config.idma_type : -1);
+#else
         if (pdev->primaryDisplay->mLastGscMap[i].mode == exynos5_gsc_map_t::GSC_NONE) {
             result.appendFormat(" | %3s", "-");
         } else {
@@ -698,6 +709,7 @@ void exynos5_dump(hwc_composer_device_1* dev, char *buff, int buff_len)
             else
                 result.appendFormat(" | %10s","GSC_LOCAL");
         }
+#endif
         result.append("\n");
     }
 
