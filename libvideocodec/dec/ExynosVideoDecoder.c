@@ -153,6 +153,11 @@ static void __Set_SupportFormat(ExynosVideoInstInfo *pVideoInstInfo)
 #endif
 
     switch (pVideoInstInfo->HwVersion) {
+    case MFC_111:
+    case MFC_110:
+    case MFC_101:
+    case MFC_100:
+    case MFC_90:
     case MFC_80:
         pVideoInstInfo->supportFormat[nLastIndex++] = VIDEO_COLORFORMAT_NV12;
         pVideoInstInfo->supportFormat[nLastIndex++] = VIDEO_COLORFORMAT_NV21;
@@ -2899,6 +2904,7 @@ ExynosVideoErrorType MFC_Exynos_Video_GetInstInfo_Decoder(
     pVideoInstInfo->specificInfo.dec.bDynamicDPBSupport = (mode & (0x1 << 1))? VIDEO_TRUE:VIDEO_FALSE;
 
     __Set_SupportFormat(pVideoInstInfo);
+    ALOGI("%s: MFC HwVersion=0x%X", __func__, pVideoInstInfo->HwVersion);
 
 EXIT:
     if (hDec >= 0)
