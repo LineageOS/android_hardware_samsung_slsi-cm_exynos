@@ -207,8 +207,8 @@ void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
 #ifdef DECON_FB
     cfg.state = cfg.DECON_WIN_STATE_BUFFER;
     cfg.fd_idma[0] = handle->fd;
-    cfg.fd_idma[1] = -1; //FIXME
-    cfg.fd_idma[2] = -1; //FIXME
+    cfg.fd_idma[1] = handle->fd1;
+    cfg.fd_idma[2] = handle->fd2;
     cfg.idma_type = getIdmaType(win_idx);
     if (isVppType(cfg.idma_type)) {
         // TODO: Configure vpp_parm
