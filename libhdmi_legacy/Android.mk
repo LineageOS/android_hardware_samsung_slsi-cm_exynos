@@ -16,7 +16,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libexynosutils libexynosv4l2 libhwcutils libdisplay libhwcutilsmodule libmpp
+LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libexynosutils libexynosv4l2 libhwcutils libexynosdisplay libhwcutilsmodule libmpp
 
 ifeq ($(BOARD_USES_GSC_VIDEO), true)
 	LOCAL_CFLAGS += -DGSC_VIDEO
@@ -40,7 +40,7 @@ LOCAL_C_INCLUDES := \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libhwcutils \
-	$(LOCAL_PATH)/../libdisplay \
+	$(LOCAL_PATH)/../libexynosdisplay \
 	$(LOCAL_PATH)/../libhwc \
 	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_BOARD_PLATFORM)/include \
 	$(TOP)/hardware/samsung_slsi-cm/exynos/libexynosutils \

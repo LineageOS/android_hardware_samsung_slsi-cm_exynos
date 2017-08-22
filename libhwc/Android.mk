@@ -20,7 +20,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_SHARED_LIBRARIES := liblog libcutils libEGL libGLESv1_CM libhardware \
 	libhardware_legacy libion_exynos libutils libsync \
-	libexynosv4l2 libMcClient libexynosutils libhwcutils libdisplay libhdmi \
+	libexynosv4l2 libMcClient libexynosutils libhwcutils libexynosdisplay libhdmi \
 	libdisplaymodule libhdmimodule libmpp
 
 ifeq ($(BOARD_DYNAMIC_RECOMPOSITION_DISABLED), true)
@@ -98,7 +98,7 @@ LOCAL_C_INCLUDES += \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libhwcutils \
-	$(LOCAL_PATH)/../libdisplay \
+	$(LOCAL_PATH)/../libexynosdisplay \
 	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_BOARD_PLATFORM)/include \
 	$(TOP)/hardware/samsung_slsi-cm/exynos/libexynosutils \
 	$(TOP)/hardware/samsung_slsi-cm/exynos/libcec \
