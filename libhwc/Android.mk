@@ -20,7 +20,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_SHARED_LIBRARIES := liblog libcutils libEGL libGLESv1_CM libhardware \
 	libhardware_legacy libion_exynos libutils libsync \
-	libexynosv4l2 libMcClient libexynosutils libhwcutils libdisplay libhdmi \
+	libexynosv4l2 libMcClient libexynosutils libhwcutils libexynosdisplay libhdmi \
 	libdisplaymodule libhdmimodule libmpp
 
 ifeq ($(BOARD_DYNAMIC_RECOMPOSITION_DISABLED), true)
