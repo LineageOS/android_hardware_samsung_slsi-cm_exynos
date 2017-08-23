@@ -49,15 +49,8 @@ endif
 # old kernel APIs for calling it (S3C_FB_*).
 # Newer SoCs (Exynos 7420 onwards) make use of a new kernel API.
 # WARNING: Support is highly experimental!
-ifneq ($(filter exynos7420 exynos7580 exynos8890, $(TARGET_SOC)),)
+ifneq ($(filter exynos7420 exynos7580 exynos7880 exynos8890, $(TARGET_SOC)),)
 	LOCAL_CFLAGS += -DDECON_FB
-endif
-
-# Exynos 8890 Uses IDMA_G1 instead of the standard IDMA_G0
-# and needs forced parameters.
-ifneq ($(filter exynos8890, $(TARGET_SOC)),)
-	LOCAL_CFLAGS += -DDECON_IDMA_G1
-	LOCAL_CFLAGS += -DDECON_8890
 endif
 
 LOCAL_CFLAGS += -DLOG_TAG=\"display\"

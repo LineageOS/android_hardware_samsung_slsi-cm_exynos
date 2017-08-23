@@ -155,6 +155,11 @@ static void __Set_SupportFormat(ExynosVideoInstInfo *pVideoInstInfo)
     pVideoInstInfo->supportFormat[nLastIndex++] = VIDEO_COLORFORMAT_NV21;
 
     switch (pVideoInstInfo->HwVersion) {
+    case MFC_111:
+    case MFC_110:
+    case MFC_101:
+    case MFC_100:
+    case MFC_90:
     case MFC_80:
         pVideoInstInfo->supportFormat[nLastIndex++] = VIDEO_COLORFORMAT_BGRA8888;
         pVideoInstInfo->supportFormat[nLastIndex++] = VIDEO_COLORFORMAT_RGBA8888;
@@ -544,7 +549,7 @@ static ExynosVideoErrorType MFC_Encoder_Set_EncParam (
         ext_ctrl[47].id =  V4L2_CID_MPEG_VIDEO_H264_SEI_FP_CURRENT_FRAME_0;
         ext_ctrl[47].value = 0;
         ext_ctrl[48].id =  V4L2_CID_MPEG_VIDEO_H264_SEI_FP_ARRANGEMENT_TYPE;
-#ifdef SOC_EXYNOS5430
+#ifdef NEW_API
         ext_ctrl[48].value = V4L2_MPEG_VIDEO_H264_SEI_FP_ARRANGEMENT_TYPE_SIDE_BY_SIDE;
 #else
         ext_ctrl[48].value = V4L2_MPEG_VIDEO_H264_SEI_FP_TYPE_SIDE_BY_SIDE;
@@ -2158,7 +2163,7 @@ static ExynosVideoErrorType MFC_Encoder_Enqueue_Inbuf(
     }
 
     if ((((OMX_BUFFERHEADERTYPE *)pPrivate)->nFlags & OMX_BUFFERFLAG_EOS) == OMX_BUFFERFLAG_EOS) {
-#ifdef SOC_EXYNOS5430
+#ifdef NEW_API
         buf.reserved2 = LAST_FRAME;
         ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.reserved);
 #else
@@ -2595,7 +2600,7 @@ static ExynosVideoErrorType MFC_Encoder_ExtensionEnqueue_Inbuf(
     }
 
     if ((((OMX_BUFFERHEADERTYPE *)pPrivate)->nFlags & OMX_BUFFERFLAG_EOS) == OMX_BUFFERFLAG_EOS) {
-#ifdef SOC_EXYNOS5430
+#ifdef NEW_API
         buf.reserved2 = LAST_FRAME;
         ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.reserved2);
 #else
@@ -2943,6 +2948,7 @@ ExynosVideoErrorType MFC_Exynos_Video_GetInstInfo_Encoder(
         ALOGW("%s: MFC version information is not available", __func__);
         pVideoInstInfo->HwVersion = (int)MFC_65;
     } else {
+        ALOGI("%s: MFC HwVersion=0x%X", __func__, version);
         pVideoInstInfo->HwVersion = version;
     }
 

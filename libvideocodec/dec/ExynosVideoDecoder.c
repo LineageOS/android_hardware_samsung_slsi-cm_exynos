@@ -153,6 +153,11 @@ static void __Set_SupportFormat(ExynosVideoInstInfo *pVideoInstInfo)
 #endif
 
     switch (pVideoInstInfo->HwVersion) {
+    case MFC_111:
+    case MFC_110:
+    case MFC_101:
+    case MFC_100:
+    case MFC_90:
     case MFC_80:
         pVideoInstInfo->supportFormat[nLastIndex++] = VIDEO_COLORFORMAT_NV12;
         pVideoInstInfo->supportFormat[nLastIndex++] = VIDEO_COLORFORMAT_NV21;
@@ -1818,7 +1823,7 @@ static ExynosVideoErrorType MFC_Decoder_Enqueue_Inbuf(
     // FIXME: figure out why |pPrivate| may be NULL.
     if (pPrivate &&
             (((OMX_BUFFERHEADERTYPE *)pPrivate)->nFlags & OMX_BUFFERFLAG_EOS) == OMX_BUFFERFLAG_EOS) {
-#ifdef SOC_EXYNOS5430
+#ifdef NEW_API
         buf.reserved2 = LAST_FRAME;
         ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.reserved2);
 #else
@@ -2376,7 +2381,7 @@ static ExynosVideoErrorType MFC_Decoder_ExtensionEnqueue_Inbuf(
     // FIXME: figure out why |pPrivate| may be NULL.
     if (pPrivate &&
         (((OMX_BUFFERHEADERTYPE *)pPrivate)->nFlags & OMX_BUFFERFLAG_EOS) == OMX_BUFFERFLAG_EOS) {
-#ifdef SOC_EXYNOS5430
+#ifdef NEW_API
         buf.reserved2 = LAST_FRAME;
         ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.reserved2);
 #else
@@ -2886,6 +2891,7 @@ ExynosVideoErrorType MFC_Exynos_Video_GetInstInfo_Decoder(
 #endif
             pVideoInstInfo->HwVersion = (int)MFC_65;
     } else {
+        ALOGI("%s: MFC HwVersion=0x%X", __func__, version);
         pVideoInstInfo->HwVersion = version;
     }
 

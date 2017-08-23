@@ -97,6 +97,7 @@ typedef enum _ExynosVideoFrameSkipMode {
     VIDEO_FRAME_SKIP_MODE_BUF_LIMIT,
 } ExynosVideoFrameSkipMode;
 
+/* see s5p_mfc_common.h in kernel */
 typedef enum _ExynosVideoMFCVersion {
     MFC_ERROR   = 0,
     MFC_51      = 0x51,
@@ -107,6 +108,11 @@ typedef enum _ExynosVideoMFCVersion {
     MFC_77      = 0x77,
     MFC_78      = 0x78,
     MFC_80      = 0x80,
+    MFC_90      = 0x90,
+    MFC_100     = 0xA0,
+    MFC_101     = 0xA01,
+    MFC_110     = 0xA0A0,
+    MFC_111     = 0xA0B0,
 } ExynosVideoMFCVersion;
 
 typedef enum _ExynosVideoHEVCVersion {

@@ -34,28 +34,8 @@ ifeq ($(BOARD_USE_HEVC_HWIP), true)
 LOCAL_CFLAGS += -DUSE_HEVC_HWIP
 endif
 
-ifeq ($(TARGET_SOC), exynos5422)
-LOCAL_CFLAGS += -DSOC_EXYNOS5430
-endif
-
-ifeq ($(TARGET_SOC), exynos5430)
-LOCAL_CFLAGS += -DSOC_EXYNOS5430
-endif
-
-ifeq ($(TARGET_SOC), exynos5433)
-LOCAL_CFLAGS += -DSOC_EXYNOS5430
-endif
-
-ifeq ($(TARGET_SOC), exynos7420)
-LOCAL_CFLAGS += -DSOC_EXYNOS5430
-endif
-
-ifeq ($(TARGET_SOC), exynos7580)
-LOCAL_CFLAGS += -DSOC_EXYNOS5430
-endif
-
-ifeq ($(TARGET_SOC), exynos8890)
-LOCAL_CFLAGS += -DSOC_EXYNOS5430
+ifneq ($(filter exynos5422 exynos5430 exynos5433 exynos7420 exynos7580 exynos7880 exynos8890, $(TARGET_SOC)),)
+LOCAL_CFLAGS += -DNEW_API
 endif
 
 LOCAL_MODULE := libExynosVideoApi

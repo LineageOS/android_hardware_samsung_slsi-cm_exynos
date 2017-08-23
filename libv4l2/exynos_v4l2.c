@@ -866,3 +866,28 @@ int exynos_v4l2_s_ext_ctrl(int fd, struct v4l2_ext_controls *ctrl)
 
     return ret;
 }
+
+int exynos_v4l2_prepare(int fd, struct v4l2_buffer *buf)
+{
+    int ret = -1;
+
+    Exynos_v4l2_In();
+
+    if (fd < 0) {
+        ALOGE("%s: invalid fd: %d", __func__, fd);
+        return ret;
+    }
+
+    if (!buf) {
+        ALOGE("%s: buf is NULL", __func__);
+        return ret;
+    }
+
+    ret = ioctl(fd, VIDIOC_PREPARE_BUF, buf);
+    if (ret)
+        ALOGE("failed to ioctl: VIDIOC_PREPARE_BUF (%d - %s)", errno, strerror(errno));
+
+    Exynos_v4l2_Out();
+
+    return ret;
+}
