@@ -41,6 +41,7 @@
 #define LOG_NDEBUG 1
 #define LOG_TAG "libsrpapi"
 #include <utils/Log.h>
+#include <android/log.h>
 
 static struct srp_buf_info ibuf_info;
 static struct srp_buf_info obuf_info;
