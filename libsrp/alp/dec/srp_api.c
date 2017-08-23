@@ -35,12 +35,13 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#include <log/log.h>
 
 #include "srp_api.h"
 
 #define LOG_NDEBUG 1
 #define LOG_TAG "libsrpapi"
-#include <utils/Log.h>
+#define __android_log_print()
 
 static struct srp_buf_info ibuf_info;
 static struct srp_buf_info obuf_info;
