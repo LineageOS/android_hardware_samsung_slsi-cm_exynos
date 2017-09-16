@@ -546,7 +546,7 @@ static CSC_ERRORCODE csc_init_hw(
             break;
 #endif
         default:
-            ALOGE("%s:: unsupported csc_hw_type, csc use sw", __func__);
+            ALOGE("%s:: unsupported csc_hw_type(%d), csc use sw", __func__, csc_handle->csc_hw_type);
             csc_handle->csc_hw_handle = NULL;
             break;
         }
@@ -669,7 +669,7 @@ static CSC_ERRORCODE csc_set_format(
             break;
 #endif
         default:
-            ALOGE("%s:: unsupported csc_hw_type", __func__);
+            ALOGE("%s:: unsupported csc_hw_type(%d)", __func__, csc_handle->csc_hw_type);
             break;
         }
     }
@@ -709,7 +709,7 @@ static CSC_ERRORCODE csc_set_buffer(
             break;
 #endif
         default:
-            ALOGE("%s:: unsupported csc_hw_type", __func__);
+            ALOGE("%s:: unsupported csc_hw_type(%d)", __func__, csc_handle->csc_hw_type);
             break;
         }
     }
@@ -761,7 +761,7 @@ CSC_ERRORCODE csc_deinit(
             break;
 #endif
         default:
-            ALOGE("%s:: unsupported csc_hw_type", __func__);
+            ALOGE("%s:: unsupported csc_hw_type(%d)", __func__, csc_handle->csc_hw_type);
             break;
         }
     }
