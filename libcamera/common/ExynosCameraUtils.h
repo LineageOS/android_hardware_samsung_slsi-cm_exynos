@@ -26,9 +26,10 @@
 #include "ExynosRect.h"
 #include "fimc-is-metadata.h"
 #include "ExynosCameraSensorInfo.h"
-#include "videodev2_exynos_media.h"
 #include "ExynosCameraBuffer.h"
 #include "ExynosCameraConfig.h"
+
+#include <linux/videodev2_exynos_media.h>
 
 #define ROUND_OFF(x, dig)           (floor((x) * pow(10.0f, dig)) / pow(10.0f, dig))
 
