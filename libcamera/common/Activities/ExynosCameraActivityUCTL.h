@@ -41,8 +41,8 @@
 #include <sys/types.h>
 #include <utils/threads.h>
 
-#include <videodev2.h>
-#include <videodev2_exynos_camera.h>
+#include <linux/videodev2.h>
+#include <linux/videodev2_exynos_camera.h>
 #include <linux/vt.h>
 
 #include <utils/RefBase.h>
