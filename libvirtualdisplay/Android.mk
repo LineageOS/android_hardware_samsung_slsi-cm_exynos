@@ -16,7 +16,10 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libexynosutils libexynosv4l2 \
-                          libhwcutils libexynosdisplay libhwcutilsmodule libmpp libsync libion_exynos
+                          libhwcutils libexynosdisplay libhwcutilsmodule libmpp libsync libion_exynos \
+                          libbase libnativewindow
+
+LOCAL_STATIC_LIBRARIES := libarect
 
 ifeq ($(BOARD_USES_GSC_VIDEO), true)
 	LOCAL_CFLAGS += -DGSC_VIDEO

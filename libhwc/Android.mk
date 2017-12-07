@@ -21,7 +21,9 @@ LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_SHARED_LIBRARIES := liblog libcutils libEGL libGLESv1_CM libhardware \
 	libhardware_legacy libion_exynos libutils libsync \
 	libexynosv4l2 libMcClient libexynosutils libhwcutils libexynosdisplay libhdmi \
-	libdisplaymodule libhdmimodule libmpp
+	libdisplaymodule libhdmimodule libmpp libbase libnativewindow
+
+LOCAL_STATIC_LIBRARIES := libarect
 
 ifeq ($(BOARD_DYNAMIC_RECOMPOSITION_DISABLED), true)
 	LOCAL_CFLAGS += -DDYNAMIC_RECOMPOSITION_DISABLED
