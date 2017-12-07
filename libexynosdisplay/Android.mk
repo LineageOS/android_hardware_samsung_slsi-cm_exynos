@@ -16,7 +16,10 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libexynosutils \
-	libexynosv4l2 libsync libhwcutils libhwcutilsmodule libmpp
+	libexynosv4l2 libsync libhwcutils libhwcutilsmodule libmpp libbase libnativewindow
+
+LOCAL_STATIC_LIBRARIES := libarect
+
 ifeq ($(BOARD_USES_FIMC), true)
 LOCAL_SHARED_LIBRARIES += libexynosfimc
 else
