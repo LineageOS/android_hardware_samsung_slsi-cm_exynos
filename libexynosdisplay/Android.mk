@@ -67,7 +67,7 @@ LOCAL_C_INCLUDES := \
 	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libhwcutilsmodule
 
 LOCAL_ADDITIONAL_DEPENDENCIES := \
-	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+	INSTALLED_KERNEL_HEADERS
 
 LOCAL_SRC_FILES := \
 	ExynosDisplay.cpp \
