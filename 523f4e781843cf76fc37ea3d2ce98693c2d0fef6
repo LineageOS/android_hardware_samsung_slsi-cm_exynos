@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "658ea3a3_ad887098",
+        "filename": "libsrp/alp/dec/srp_api.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2018-02-16T00:47:59Z",
+      "side": 1,
+      "message": "android/log.h is a subset of utils/Log.h, so it\u0027s not needed here",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "523f4e781843cf76fc37ea3d2ce98693c2d0fef6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
