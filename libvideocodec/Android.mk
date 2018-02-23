@@ -34,7 +34,7 @@ ifeq ($(BOARD_USE_HEVC_HWIP), true)
 LOCAL_CFLAGS += -DUSE_HEVC_HWIP
 endif
 
-ifneq ($(filter exynos5422 exynos5430 exynos5433 exynos7420 exynos7580 exynos7880 exynos8890, $(TARGET_SOC)),)
+ifneq ($(filter exynos5422 exynos5430 exynos5433 exynos7420 exynos7580 exynos7870 exynos7880 exynos8890, $(TARGET_SOC)),)
 LOCAL_CFLAGS += -DNEW_API
 endif
 
