@@ -25,8 +25,7 @@ LOCAL_C_INCLUDES += \
 	$(TOP)/hardware/samsung_slsi-cm/exynos4/include \
 	$(TOP)/hardware/samsung_slsi-cm/exynos5/include
 
-LOCAL_ADDITIONAL_DEPENDENCIES := \
-	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+LOCAL_ADDITIONAL_DEPENDENCIES := INSTALLED_KERNEL_HEADERS
 
 LOCAL_SRC_FILES := MppFactory.cpp
 LOCAL_MODULE_TAGS := eng
