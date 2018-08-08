@@ -635,7 +635,12 @@ void ExynosOverlayDisplay::determineYuvOverlay(hwc_display_contents_1_t *content
     mHasCropSurface = false;
     for (size_t i = 0; i < contents->numHwLayers; i++) {
         hwc_layer_1_t &layer = contents->hwLayers[i];
-        if (layer.handle) {
+
+        if ((layer.flags & HWC_SKIP_LAYER) ||
+                layer.compositionType == HWC_FRAMEBUFFER_TARGET)
+            continue;
+
+        if (layer.handle && (uintptr_t)layer.handle != 0xff000000) {
             private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
             if (getDrmMode(handle->flags) != NO_DRM) {
                 this->mHasDrmSurface = true;
@@ -686,7 +691,11 @@ void ExynosOverlayDisplay::determineSupportedOverlays(hwc_display_contents_1_t *
             continue;
         }
 
-        if (layer.handle && i < (size_t)maxHwOverlays) {
+        if ((layer.flags & HWC_SKIP_LAYER) ||
+                layer.compositionType == HWC_FRAMEBUFFER_TARGET)
+            continue;
+
+        if (layer.handle && (uintptr_t)layer.handle != 0xff000000 && i < (size_t)maxHwOverlays) {
             private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
             if ((int)get_yuv_planes(halFormatToV4L2Format(handle->format)) > 0) {
                 videoLayer = true;
@@ -781,7 +790,9 @@ void ExynosOverlayDisplay::determineBandwidthSupport(hwc_display_contents_1_t *c
         for (size_t i = 0; i < contents->numHwLayers; i++) {
             hwc_layer_1_t &layer = contents->hwLayers[i];
             if ((layer.flags & HWC_SKIP_LAYER) ||
-                    layer.compositionType == HWC_FRAMEBUFFER_TARGET)
+                    layer.compositionType == HWC_FRAMEBUFFER_TARGET ||
+					!layer.handle ||
+					(uintptr_t)layer.handle == 0xff000000)
                 continue;
 
             private_handle_t *handle = private_handle_t::dynamicCast(
@@ -900,7 +911,7 @@ void ExynosOverlayDisplay::assignWindows(hwc_display_contents_1_t *contents)
             }
         }
 
-        if (layer.handle) {
+        if (layer.handle && (uintptr_t)layer.handle != 0xff000000) {
             private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
             if (ExynosMPP::isFormatSupportedByGscOtf(handle->format)) {
                 /* in case of changing compostiontype form GSC to FRAMEBUFFER for yuv layer */
@@ -946,6 +957,10 @@ void ExynosOverlayDisplay::assignWindows(hwc_display_contents_1_t *contents)
 
 bool ExynosOverlayDisplay::assignGscLayer(hwc_layer_1_t &layer, int index __unused, int nextWindow)
 {
+	if (!layer.handle || (uintptr_t)layer.handle == 0xff000000) {
+		return false;
+	}
+
     private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
     size_t gscIndex = 0;
     int down_ratio = mMPPs[0]->getDownscaleRatio(this->mXres, this->mYres);
@@ -997,6 +1012,10 @@ int ExynosOverlayDisplay::waitForRenderFinish(buffer_handle_t *handle __unused, 
 
 int ExynosOverlayDisplay::postGscM2M(hwc_layer_1_t &layer, fb_win_config *config, int win_map, int index)
 {
+	if (!layer.handle || (uintptr_t)layer.handle == 0xff000000) {
+		return false;
+	}
+
     exynos5_hwc_post_data_t *pdata = &mPostData;
     int gsc_idx = pdata->gsc_map[index].idx;
     int dst_format = HAL_PIXEL_FORMAT_RGBX_8888;
