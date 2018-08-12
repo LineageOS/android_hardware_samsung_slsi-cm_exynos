@@ -104,7 +104,7 @@ bool ExynosMPP::formatRequiresGsc(int format)
            (format != HAL_PIXEL_FORMAT_RGBX_8888) && (format != HAL_PIXEL_FORMAT_RGB_565));
 }
 
-int ExynosMPP::getDownscaleRatio(int xres, int yres)
+int ExynosMPP::getDownscaleRatio(int xres __unused, int yres __unused)
 {
     return 0;
 }
@@ -317,12 +317,12 @@ void ExynosMPP::setupOtfDestination(exynos_mpp_img &src_img, exynos_mpp_img &dst
     dst_img.yaddr = (uint32_t)NULL;
 }
 
-int ExynosMPP::sourceAlign(int format)
+int ExynosMPP::sourceAlign(int format __unused)
 {
     return 16;
 }
 
-int ExynosMPP::destinationAlign(int format)
+int ExynosMPP::destinationAlign(int format __unused)
 {
     return 16;
 }
@@ -362,13 +362,7 @@ int ExynosMPP::processOTF(hwc_layer_1_t &layer)
 {
     ALOGV("configuring gscaler %u for memory-to-fimd-localout", mIndex);
 
-    private_handle_t *src_handle = private_handle_t::dynamicCast(layer.handle);
-    buffer_handle_t dst_buf;
-    private_handle_t *dst_handle;
     int ret = 0;
-
-    int srcAlign = sourceAlign(src_handle->format);
-    int dstAlign;
 
     exynos_mpp_img src_img, dst_img;
     memset(&src_img, 0, sizeof(src_img));
@@ -376,8 +370,6 @@ int ExynosMPP::processOTF(hwc_layer_1_t &layer)
 
     setupSource(src_img, layer);
     setupOtfDestination(src_img, dst_img, layer);
-
-    dstAlign = destinationAlign(dst_img.format);
 
     ALOGV("source configuration:");
     dumpMPPImage(src_img);
@@ -606,7 +598,7 @@ int ExynosMPP::processM2M(hwc_layer_1_t &layer, int dst_format, hwc_frect_t *sou
     buffer_handle_t mid_buf;
     private_handle_t *mid_handle;
     int ret = 0;
-    int dstAlign;
+
 #ifdef USES_VIRTUAL_DISPLAY
     bool need_gsc_op_twice = false;
 #endif
@@ -926,12 +918,12 @@ bool ExynosMPP::isDstConfigChanged(exynos_mpp_img &c1, exynos_mpp_img &c2)
             c1.drmMode != c2.drmMode;
 }
 
-bool ExynosMPP::isPerFrameSrcChanged(exynos_mpp_img &c1, exynos_mpp_img &c2)
+bool ExynosMPP::isPerFrameSrcChanged(exynos_mpp_img &c1 __unused, exynos_mpp_img &c2 __unused)
 {
     return false;
 }
 
-bool ExynosMPP::isPerFrameDstChanged(exynos_mpp_img &c1, exynos_mpp_img &c2)
+bool ExynosMPP::isPerFrameDstChanged(exynos_mpp_img &c1 __unused, exynos_mpp_img &c2 __unused)
 {
     return false;
 }

@@ -180,8 +180,8 @@ bool ExynosVirtualDisplay::isLayerFullSize(hwc_layer_1_t *layer)
 
     if (layer->displayFrame.left == 0 &&
         layer->displayFrame.top == 0 &&
-        layer->displayFrame.right == mWidth &&
-        layer->displayFrame.bottom == mHeight) {
+        layer->displayFrame.right == (int)mWidth &&
+        layer->displayFrame.bottom == (int)mHeight) {
         return true;
     } else {
         return false;
@@ -333,8 +333,13 @@ int ExynosVirtualDisplay::set(hwc_display_contents_1_t* contents)
                     private_handle_t *secureHandle = private_handle_t::dynamicCast(mPhysicallyLinearBuffer);
 
                     if (mPrevFbHandle != newFbHandle) {
-                        ALOGV("Buffer of fb layer is changed, number_of_fb %d, newFbHandle 0x%x, target_layer->handle 0x%x",
+						/* TODO:
+                            error: format specifies type 'unsigned int' but the argument has type 'buffer_handle_t' (aka 'const native_handle *') [-Werror,-Wformat]
                             number_of_fb, newFbHandle, target_layer->handle);
+                                                       ^~~~~~~~~~~~~~~~~~~~
+						*/ 
+                        /*ALOGV("Buffer of fb layer is changed, number_of_fb %d, newFbHandle 0x%x, target_layer->handle 0x%x",
+                            number_of_fb, newFbHandle, target_layer->handle);*/
                         mPrevFbHandle = newFbHandle;
                         if (srcAddr && mPhysicallyLinearBufferAddr) {
                             memcpy((void *)mPhysicallyLinearBufferAddr, (void *)srcAddr, mWidth * mHeight * 4);
@@ -521,7 +526,7 @@ int ExynosVirtualDisplay::getConfig()
     return 0;
 }
 
-int32_t ExynosVirtualDisplay::getDisplayAttributes(const uint32_t attribute)
+int32_t ExynosVirtualDisplay::getDisplayAttributes(const uint32_t attribute __unused)
 {
     return 0;
 }
