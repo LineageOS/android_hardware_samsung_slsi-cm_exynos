@@ -254,9 +254,6 @@ bool compareYuvLayerConfig(int videoLayers, uint32_t index,
         video_layer_config *pre_src_data, video_layer_config *pre_dst_data)
 {
     private_handle_t *src_handle = private_handle_t::dynamicCast(layer.handle);
-    buffer_handle_t dst_buf;
-    private_handle_t *dst_handle;
-    int ret = 0;
     bool reconfigure = 1;
 
     video_layer_config new_src_cfg, new_dst_cfg;

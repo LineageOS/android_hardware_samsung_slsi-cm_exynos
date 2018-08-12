@@ -97,7 +97,6 @@ int ExynosG2DWrapper::runCompositor(hwc_layer_1_t &src_layer, private_handle_t *
 {
     int ret = 0;
     unsigned long srcYAddress = 0;
-    unsigned long srcCbCrAddress = 0;
     unsigned long dstYAddress = 0;
     unsigned long dstCbCrAddress =0;
 
@@ -375,7 +374,6 @@ int ExynosG2DWrapper::runSecureCompositor(hwc_layer_1_t &src_layer,
         blit_op mode, bool force_clear)
 {
     int ret = 0;
-    unsigned long srcYAddress = 0;
 
     ExynosRect   srcImgRect, dstImgRect;
 
@@ -384,7 +382,7 @@ int ExynosG2DWrapper::runSecureCompositor(hwc_layer_1_t &src_layer,
     rotation     g2d_rotation = ORIGIN;
 
     fimg2d_addr  srcYAddr;
-    fimg2d_addr  srcCbCrAddr;
+	fimg2d_addr  srcCbCrAddr;
     fimg2d_image srcImage;
     fimg2d_rect  srcRect;
 
@@ -404,8 +402,6 @@ int ExynosG2DWrapper::runSecureCompositor(hwc_layer_1_t &src_layer,
 
     uint32_t srcG2d_bpp, dstG2d_bpp;
     uint32_t srcImageSize, dstImageSize;
-    bool src_ion_mapped = false;
-    bool dst_ion_mapped = false;
 
     private_handle_t *src_handle = private_handle_t::dynamicCast(src_layer.handle);
 
@@ -610,7 +606,7 @@ bool ExynosG2DWrapper::InitSecureG2D()
             private_handle_t *handle = private_handle_t::dynamicCast(
                                               mVirtualDisplay->mPhysicallyLinearBuffer);
             mVirtualDisplay->mPhysicallyLinearBufferAddr = (unsigned long)ion_map(handle->fd, mAllocSize, 0);
-            ALOGV("allocated secure g2d input buffer: 0x%x", mVirtualDisplay->mPhysicallyLinearBufferAddr);
+            ALOGV("allocated secure g2d input buffer: 0x%lx", mVirtualDisplay->mPhysicallyLinearBufferAddr);
         }
     }
     return true;
@@ -623,7 +619,7 @@ bool ExynosG2DWrapper::TerminateSecureG2D()
         return false;
 
     if (mVirtualDisplay->mPhysicallyLinearBuffer) {
-        ALOGV("free g2d input buffer: 0x%x", mVirtualDisplay->mPhysicallyLinearBufferAddr);
+        ALOGV("free g2d input buffer: 0x%lx", mVirtualDisplay->mPhysicallyLinearBufferAddr);
         ion_unmap((void *)mVirtualDisplay->mPhysicallyLinearBufferAddr, mAllocSize);
         mVirtualDisplay->mPhysicallyLinearBufferAddr = 0;
 
@@ -637,16 +633,20 @@ bool ExynosG2DWrapper::TerminateSecureG2D()
 }
 #endif
 
-void ExynosG2DWrapper::exynos5_cleanup_g2d(int force)
+void ExynosG2DWrapper::exynos5_cleanup_g2d(int force __unused)
 {
 }
 
-int ExynosG2DWrapper::exynos5_g2d_buf_alloc(hwc_display_contents_1_t* contents)
+int ExynosG2DWrapper::exynos5_g2d_buf_alloc(hwc_display_contents_1_t* contents __unused)
 {
     return 1;
 }
 
-int ExynosG2DWrapper::exynos5_config_g2d(hwc_layer_1_t &layer, private_handle_t *dst_handle, fb_win_config &cfg, int win_idx_2d, int win_idx)
+int ExynosG2DWrapper::exynos5_config_g2d(hwc_layer_1_t &layer __unused,
+    private_handle_t *dst_handle __unused,
+    fb_win_config &cfg __unused,
+    int win_idx_2d __unused,
+    int win_idx __unused)
 {
     return -1;
 }
