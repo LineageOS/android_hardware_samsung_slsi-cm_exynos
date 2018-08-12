@@ -144,7 +144,7 @@ protected:
 #ifdef __cplusplus
 extern "C"
 #endif
-struct FimgApi *createFimgApi();
+FimgApi *createFimgApi();
 
 #ifdef __cplusplus
 extern "C"
