@@ -40,7 +40,7 @@
 
 #define LOG_NDEBUG 1
 #define LOG_TAG "libsrpapi"
-#include <utils/log.h>
+#include <cutils/log.h>
 
 static struct srp_buf_info ibuf_info;
 static struct srp_buf_info obuf_info;
@@ -130,7 +130,7 @@ int SRP_Send_EOS(void)
     return SRP_ERROR_NOT_READY;
 }
 
-int SRP_SetParams(int id, unsigned long val)
+int SRP_SetParams(int id __unused, unsigned long val __unused)
 {
     if (srp_dev != -1)
         return 0; /* not yet */

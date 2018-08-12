@@ -160,7 +160,7 @@ void ExynosOverlayDisplay::configureOtfWindow(hwc_rect_t &displayFrame,
 void ExynosOverlayDisplay::configureHandle(private_handle_t *handle,
         hwc_frect_t &sourceCrop, hwc_rect_t &displayFrame,
         int32_t blending, int32_t planeAlpha, int fence_fd, fb_win_config &cfg,
-        int32_t win_idx)
+        int32_t win_idx __unused)
 {
     uint32_t x, y;
     uint32_t w = WIDTH(displayFrame);
@@ -445,7 +445,7 @@ int ExynosOverlayDisplay::set(hwc_display_contents_1_t* contents)
 
 int ExynosOverlayDisplay::getCompModeSwitch()
 {
-    unsigned int tot_win_size = 0, updateFps = 0;
+    unsigned int updateFps = 0;
     unsigned int lcd_size = this->mXres * this->mYres;
     uint64_t TimeStampDiff;
     float Temp;
@@ -618,11 +618,11 @@ void ExynosOverlayDisplay::skipStaticLayers(hwc_display_contents_1_t* contents)
     return;
 }
 
-void ExynosOverlayDisplay::forceYuvLayersToFb(hwc_display_contents_1_t *contents)
+void ExynosOverlayDisplay::forceYuvLayersToFb(hwc_display_contents_1_t *contents __unused)
 {
 }
 
-void ExynosOverlayDisplay::handleOffscreenRendering(hwc_layer_1_t &layer)
+void ExynosOverlayDisplay::handleOffscreenRendering(hwc_layer_1_t &layer __unused)
 {
 }
 
@@ -686,7 +686,7 @@ void ExynosOverlayDisplay::determineSupportedOverlays(hwc_display_contents_1_t *
             continue;
         }
 
-        if (layer.handle && i < maxHwOverlays) {
+        if (layer.handle && i < (size_t)maxHwOverlays) {
             private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
             if ((int)get_yuv_planes(halFormatToV4L2Format(handle->format)) > 0) {
                 videoLayer = true;
@@ -944,7 +944,7 @@ void ExynosOverlayDisplay::assignWindows(hwc_display_contents_1_t *contents)
     }
 }
 
-bool ExynosOverlayDisplay::assignGscLayer(hwc_layer_1_t &layer, int index, int nextWindow)
+bool ExynosOverlayDisplay::assignGscLayer(hwc_layer_1_t &layer, int index __unused, int nextWindow)
 {
     private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
     size_t gscIndex = 0;
@@ -990,7 +990,7 @@ bool ExynosOverlayDisplay::assignGscLayer(hwc_layer_1_t &layer, int index, int n
     return ret;
 }
 
-int ExynosOverlayDisplay::waitForRenderFinish(buffer_handle_t *handle, int buffers)
+int ExynosOverlayDisplay::waitForRenderFinish(buffer_handle_t *handle __unused, int buffers __unused)
 {
     return 0;
 }
@@ -1038,10 +1038,10 @@ int ExynosOverlayDisplay::postGscM2M(hwc_layer_1_t &layer, fb_win_config *config
     return 0;
 }
 
-int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer, fb_win_config *config, int win_map, int index)
+int ExynosOverlayDisplay::postGscOtf(hwc_layer_1_t &layer __unused, fb_win_config *config __unused, int win_map __unused, int index)
 {
     exynos5_hwc_post_data_t *pdata = &mPostData;
-    int gsc_idx = pdata->gsc_map[index].idx;
+    int __unused gsc_idx = pdata->gsc_map[index].idx;
 
 #ifdef DECON_FB
     return -1;
@@ -1092,7 +1092,7 @@ void ExynosOverlayDisplay::handleStaticLayers(hwc_display_contents_1_t *contents
     }
 }
 
-int ExynosOverlayDisplay::getMPPForUHD(hwc_layer_1_t &layer)
+int ExynosOverlayDisplay::getMPPForUHD(hwc_layer_1_t &layer __unused)
 {
     return FIMD_GSC_IDX;
 }
@@ -1126,6 +1126,6 @@ void ExynosOverlayDisplay::freeMPP()
         mMPPs[i]->free();
 }
 
-void ExynosOverlayDisplay::handleTotalBandwidthOverload(hwc_display_contents_1_t *contents)
+void ExynosOverlayDisplay::handleTotalBandwidthOverload(hwc_display_contents_1_t *contents __unused)
 {
 }
