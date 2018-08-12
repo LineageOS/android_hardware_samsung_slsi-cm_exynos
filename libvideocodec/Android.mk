@@ -6,6 +6,8 @@ ifeq ($(BOARD_USE_VP8ENC_SUPPORT), true)
 LOCAL_CFLAGS += -DUSE_VP8ENC_SUPPORT
 endif
 
+LOCAL_CFLAGS += -Wno-error
+
 LOCAL_SRC_FILES := \
 	ExynosVideoInterface.c \
 	dec/ExynosVideoDecoder.c \

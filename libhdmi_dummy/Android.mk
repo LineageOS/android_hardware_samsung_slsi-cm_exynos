@@ -36,6 +36,8 @@ ifeq ($(BOARD_USES_FIMC), true)
         LOCAL_CFLAGS += -DUSES_FIMC
 endif
 
+LOCAL_CFLAGS += -Wno-error
+
 LOCAL_C_INCLUDES := \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(LOCAL_PATH)/../include \

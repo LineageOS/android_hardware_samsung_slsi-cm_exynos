@@ -84,6 +84,8 @@ ifeq ($(BOARD_USES_CEC),true)
 endif
 endif
 
+LOCAL_CFLAGS += -Wno-error
+
 # Exynos 5430 onwards use a decon frame buffer device, but still have the
 # old kernel APIs for calling it (S3C_FB_*).
 # Newer SoCs (Exynos 7420 onwards) make use of a new kernel API.
