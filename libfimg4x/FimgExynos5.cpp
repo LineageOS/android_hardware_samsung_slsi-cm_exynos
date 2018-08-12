@@ -210,8 +210,6 @@ bool FimgV4x::t_UnLock(void)
 
 bool FimgV4x::m_CreateG2D(void)
 {
-    void * mmap_base;
-
     if (m_g2dFd != 0) {
         PRINT("%s::m_g2dFd(%d) is not 0 fail\n", __func__, m_g2dFd);
         return false;
@@ -283,7 +281,7 @@ inline bool FimgV4x::m_PollG2D(struct pollfd * events)
 //---------------------------------------------------------------------------//
 // extern function
 //---------------------------------------------------------------------------//
-extern "C" struct FimgApi * createFimgApi()
+extern "C" FimgApi * createFimgApi()
 {
     if (fimgApiAutoFreeThread == 0)
         fimgApiAutoFreeThread = new FimgApiAutoFreeThread();
