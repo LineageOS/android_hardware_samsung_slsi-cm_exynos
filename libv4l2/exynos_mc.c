@@ -193,10 +193,6 @@ static int __media_get_devname_sysfs(struct media_entity *entity)
 
 static int __media_get_media_fd(const char *filename, struct media_device *media)
 {
-    ssize_t num;
-    int media_node;
-    char *ptr;
-
     ALOGD("%s: %s", __func__, filename);
 
     media->fd = open(filename, O_RDWR, 0);
@@ -587,12 +583,12 @@ static int __media_get_devname_udev(struct udev *udev,
 
 struct udev;
 
-static inline int __media_udev_open(struct udev **udev) { return 0; }
+static inline __unused int __media_udev_open(struct udev **udev __unused) { return 0; }
 
-static inline void __media_udev_close(struct udev *udev) { }
+static inline __unused void __media_udev_close(struct udev *udev __unused) { }
 
-static inline int __media_get_devname_udev(struct udev *udev,
-        struct media_entity *entity)
+static inline __unused int __media_get_devname_udev(struct udev *udev __unused,
+        struct media_entity *entity __unused)
 {
     return -ENOTSUP;
 }
