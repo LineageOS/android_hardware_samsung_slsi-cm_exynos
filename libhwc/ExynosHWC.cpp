@@ -370,7 +370,7 @@ int exynos5_query(struct hwc_composer_device_1* dev, int what, int *value)
     return 0;
 }
 
-int exynos5_eventControl(struct hwc_composer_device_1 *dev, int dpy,
+int exynos5_eventControl(struct hwc_composer_device_1 *dev, int dpy __unused,
         int event, int enabled)
 {
     struct exynos5_hwc_composer_device_1_t *pdev =
@@ -617,8 +617,7 @@ int exynos5_setPowerMode(struct hwc_composer_device_1 *dev, int disp, int mode)
                 ALOGI("FBIOBLANK ioctl failed (display already in blank mode: %d)",
                         fb_blank);
             else
-                ALOGE("FBIOBLANK ioctl failed for mode: %d", fb_blank,
-                        strerror(errno));
+                ALOGE("FBIOBLANK ioctl failed for mode: %d", fb_blank);
             return -errno;
         }
         break;
@@ -780,7 +779,7 @@ int32_t exynos5_hdmi_attribute(struct exynos5_hwc_composer_device_1_t *pdev,
 }
 
 int exynos5_getDisplayAttributes(struct hwc_composer_device_1 *dev,
-        int disp, uint32_t config, const uint32_t *attributes, int32_t *values)
+        int disp, uint32_t config __unused, const uint32_t *attributes, int32_t *values)
 {
     struct exynos5_hwc_composer_device_1_t *pdev =
                    (struct exynos5_hwc_composer_device_1_t *)dev;
@@ -823,7 +822,6 @@ int exynos5_open(const struct hw_module_t *module, const char *name,
 {
     int ret;
     int refreshRate;
-    int sw_fd;
 
     if (strcmp(name, HWC_HARDWARE_COMPOSER)) {
         return -EINVAL;
@@ -1105,19 +1103,19 @@ int exynos5_close(hw_device_t *device)
 }
 
 static struct hw_module_methods_t exynos5_hwc_module_methods = {
-    open: exynos5_open,
+    .open = exynos5_open,
 };
 
 hwc_module_t HAL_MODULE_INFO_SYM = {
-    common: {
-        tag: HARDWARE_MODULE_TAG,
-        module_api_version: HWC_MODULE_API_VERSION_0_1,
-        hal_api_version: HARDWARE_HAL_API_VERSION,
-        id: HWC_HARDWARE_MODULE_ID,
-        name: "Samsung exynos5 hwcomposer module",
-        author: "Samsung LSI",
-        methods: &exynos5_hwc_module_methods,
-        dso: 0,
-        reserved: {0},
+    .common = {
+        .tag = HARDWARE_MODULE_TAG,
+        .module_api_version = HWC_MODULE_API_VERSION_0_1,
+        .hal_api_version = HARDWARE_HAL_API_VERSION,
+        .id = HWC_HARDWARE_MODULE_ID,
+        .name = "Samsung exynos5 hwcomposer module",
+        .author = "Samsung LSI",
+        .methods = &exynos5_hwc_module_methods,
+        .dso = 0,
+        .reserved = {0},
     }
 };
