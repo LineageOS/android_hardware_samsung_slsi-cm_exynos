@@ -42,7 +42,7 @@ LOCAL_C_INCLUDES := \
 	$(TOP)/system/core/libsync/include
 
 LOCAL_ADDITIONAL_DEPENDENCIES := \
-	INSTALLED_KERNEL_HEADERS
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_SRC_FILES := \
 	ExynosExternalDisplay.cpp dv_timings.c
