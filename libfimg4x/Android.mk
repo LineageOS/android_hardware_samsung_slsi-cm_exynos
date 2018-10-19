@@ -25,13 +25,11 @@ LOCAL_SRC_FILES:= \
 	FimgExynos5.cpp
 
 LOCAL_C_INCLUDES += \
-	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(LOCAL_PATH)/../include \
 	hardware/samsung_slsi-cm/$(TARGET_SOC)/include \
 	hardware/samsung_slsi-cm/$(TARGET_BOARD_PLATFORM)/include
 
-LOCAL_ADDITIONAL_DEPENDENCIES := \
-	INSTALLED_KERNEL_HEADERS
+LOCAL_HEADER_LIBRARIES := generated_kernel_headers
 
 LOCAL_SHARED_LIBRARIES:= liblog libutils libbinder
 
